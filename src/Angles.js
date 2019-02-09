@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Field } from "react-final-form";
+import axios from "axios";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
 import TextField from "material-ui/TextField";
@@ -27,20 +28,34 @@ const ToggleAdapter = ({ input: { onChange, value }, label, ...rest }) => (
 class Angles extends React.Component {
   onSubmit = values => {
     console.log("* values", values);
+
+    axios.post("http://api.wb-lock.com:3000/setgoal", values).then(() => {});
+  };
+
+  getMotang = () => {
+    axios.post("http://api.wb-lock.com:3000/getmotang", {}).then(values => {
+      console.log(values);
+    });
   };
 
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <Form
-          initialValues={{ goal: 1000, dir: -1 }}
+          initialValues={{ opening: 2000, closing: 1000, dir: -1 }}
           onSubmit={this.onSubmit}
           render={({ handleSubmit, pristine, submitting }) => (
             <form onSubmit={handleSubmit}>
               <Field
-                name="goal"
+                name="opening"
                 component={TextFieldAdapter}
-                placeholder="Goal"
+                placeholder="Opening"
+                required
+              />
+              <Field
+                name="closing"
+                component={TextFieldAdapter}
+                placeholder="Closing"
                 required
               />
               <Field
@@ -55,6 +70,7 @@ class Angles extends React.Component {
             </form>
           )}
         />
+        <button onClick={this.getMotang}>GET MOTANG</button>
       </MuiThemeProvider>
     );
   }
