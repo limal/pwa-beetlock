@@ -35,15 +35,15 @@ class App extends Component {
   };
 
   openLock = () => {
-    axios.get("http://api.wb-lock.com:3000/open").then(() => {});
+    axios.get("http://192.168.1.119:3000/open").then(() => {});
   };
 
   closeLock = () => {
-    axios.get("http://api.wb-lock.com:3000/close").then(() => {});
+    axios.get("http://192.168.1.119:3000/close").then(() => {});
   };
 
   stopLock = () => {
-    axios.get("http://api.wb-lock.com:3000/stop").then(() => {});
+    axios.get("http://192.168.1.119:3000/stop").then(() => {});
   };
 
   render() {

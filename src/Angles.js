@@ -29,11 +29,11 @@ class Angles extends React.Component {
   onSubmit = values => {
     console.log("* values", values);
 
-    axios.post("http://api.wb-lock.com:3000/setgoal", values).then(() => {});
+    axios.post("http://192.168.1.119:3000/setgoal", values).then(() => {});
   };
 
   getMotang = () => {
-    axios.post("http://api.wb-lock.com:3000/getmotang", {}).then(values => {
+    axios.post("http://192.168.1.119:3000/getmotang", {}).then(values => {
       console.log(values);
     });
   };
