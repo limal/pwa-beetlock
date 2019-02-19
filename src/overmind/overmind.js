@@ -7,30 +7,49 @@ export const overmind = new Overmind({
   state: {
     authenticated: false,
     accessToken: null,
-    loading: false
+    refreshToken: null,
+    login: {
+      errors: null,
+      loading: false
+    }
   },
   effects: {
     request: async ({ username, password }) => {
       let response, err;
 
-      [response, err] = await to(
+      [err, response] = await to(
         axios.post("http://localhost:3001/auth", {
           username,
           password
         })
       );
 
-      return response.response.data;
+      if (err) {
+        return err.response;
+      } else {
+        return response;
+      }
     }
   },
   actions: {
-    login: async ({ state, effects }) => {
-      state.loading = true;
-      state.accessToken = await effects.request({
-        username: "test@test.com",
-        password: "test"
+    login: async ({ state, effects }, { username, password }) => {
+      state.login.loading = true;
+      const response = await effects.request({
+        username,
+        password
       });
-      state.loading = false;
+
+      if (response.status < 300) {
+        state.accessToken = response.data.token;
+        state.refreshToken = response.data.refresh_token;
+        state.login.errors = null;
+      } else {
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.login.errors = response.data;
+      }
+
+      state.login.loading = false;
     }
   }
 });

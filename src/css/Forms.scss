@@ -24,6 +24,16 @@
   width: 100%;
 }
 
+.Form-Errors {
+  @include Body2Plus;
+  background: $validation-error-opacity;
+  display: block;
+  margin: 8px 0 20px 0;
+  padding: 20px;
+  border: solid 1px $validation-error;
+  color: $validation-error;
+}
+
 .Button {
   @include Body2Plus;
   font-weight: bold;

@@ -11,8 +11,7 @@ export const Login = ({}) => {
   const { state, actions } = useOvermind();
 
   const onSubmit = values => {
-    actions.login();
-    window.alert(JSON.stringify(values, 0, 2));
+    actions.login(values);
   };
 
   return (
@@ -20,16 +19,20 @@ export const Login = ({}) => {
       <h1 className="Login-Header">Login</h1>
       <Form
         onSubmit={onSubmit}
+        initialValues={{ username: "limal", password: "dupa8" }}
         decorators={[focusOnError]}
         render={({ handleSubmit, reset, submitting, pristine, values }) => (
           <form className="Login-Form" onSubmit={handleSubmit}>
-            <Field name="email" validate={required}>
+            {state.login.errors && (
+              <div className="Form-Errors">{state.login.errors.error}</div>
+            )}
+            <Field name="username" validate={required}>
               {({ input, meta }) => (
                 <div className="Input">
                   <input
                     {...input}
                     type="text"
-                    placeholder="Email address"
+                    placeholder="username address"
                     autoFocus
                   />
                   {meta.error && meta.touched && (
@@ -49,11 +52,14 @@ export const Login = ({}) => {
               )}
             </Field>
             <div className="Login-Buttons">
-              <button className="Button" type="submit" disabled={submitting}>
+              <button
+                className="Button"
+                type="submit"
+                disabled={state.login.loading || submitting}
+              >
                 Submit
               </button>
             </div>
-            {JSON.stringify(state)}
           </form>
         )}
       />
