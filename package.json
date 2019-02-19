@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "await-to-js": "^2.1.1",
     "axios": "^0.18.0",
     "final-form": "^4.11.1",
     "final-form-focus": "^1.1.2",

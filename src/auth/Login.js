@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Field } from "react-final-form";
 import createFocusDecorator from "final-form-focus";
-import { useOvermind } from "../state/index";
+import { useOvermind } from "overmind/overmind";
 import { required } from "common/forms/validators";
 import "../css/Auth.scss";
 
 const focusOnError = createFocusDecorator();
 
 export const Login = ({}) => {
-  const { state } = useOvermind();
+  const { state, actions } = useOvermind();
 
   const onSubmit = values => {
+    actions.login();
     window.alert(JSON.stringify(values, 0, 2));
   };
 
