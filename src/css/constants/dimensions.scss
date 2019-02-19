@@ -14,7 +14,7 @@ $desktop-width: 1160px;
 }
 
 @mixin padding {
-  padding: 0 10px;
+  padding: 0 20px;
 
   @include tablet {
     padding: 0 20px;

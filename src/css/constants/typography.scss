@@ -1,0 +1,16 @@
+@mixin H1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+@mixin Body {
+  font-size: 14px;
+}
+
+@mixin Body1Plus {
+  font-size: 16px;
+}
+
+@mixin Body2Plus {
+  font-size: 18px;
+}

@@ -1,0 +1,37 @@
+@import "./constants/constants.scss";
+
+.Input {
+  margin-bottom: 20px;
+
+  input {
+    @include Body2Plus;
+    background: $primary-color;
+    border: solid 1px $text-color;
+    box-sizing: border-box;
+    color: $text-color;
+    padding: 20px 20px;
+    width: 100%;
+  }
+}
+
+.Input-Error {
+  @include Body;
+  display: block;
+  margin: 8px 0 20px 21px;
+  color: $validation-error;
+  box-sizing: border-box;
+  text-align: left;
+  width: 100%;
+}
+
+.Button {
+  @include Body2Plus;
+  font-weight: bold;
+  background: $secondary-color;
+  border: none;
+  box-sizing: border-box;
+  color: $text-color;
+  padding: 20px;
+  text-transform: uppercase;
+  width: 100%;
+}

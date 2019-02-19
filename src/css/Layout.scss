@@ -1,9 +1,13 @@
-@import "./constants/colors.scss";
-@import "./constants/layout.scss";
+@import "./constants/constants.scss";
 
 body {
   background-color: $primary-color;
   color: $text-color;
+}
+
+::placeholder {
+  color: $text-color;
+  opacity: 0.75;
 }
 
 .Layout {
@@ -24,6 +28,5 @@ body {
 .Layout-Header {
   display: flex;
   justify-content: space-between;
-  width: 100%;
   @include padding;
 }
