@@ -13,7 +13,9 @@ import lockOpen from "./lock-open.png";
 import lockClosed from "./lock-closed.png";
 import "./css/App.css";
 import { Angles } from "./Angles";
+import { Layout } from "./common/Layout";
 import { Home } from "./common/Home";
+import { Login } from "./auth/Login";
 
 class App extends Component {
   state = {
@@ -61,15 +63,17 @@ class App extends Component {
 
     return (
       <Router>
-        <div className="App">
-          <Switch>
-            {/* A user can't go to the HomePage if is not authenticated */}
-            <Route path="/" component={Home} exact />
-            {/* <Route path="/auth/:authType/:id?" component={AuthPage} />
-            <Route exact path="/connect/:provider" component={ConnectPage} />
+        <Layout>
+          <div className="App">
+            <Switch>
+              {/* A user can't go to the HomePage if is not authenticated */}
+              <Route path="/" component={Home} exact />
+              <Route path="/auth" component={Login} />
+              {/* <Route exact path="/connect/:provider" component={ConnectPage} />
             <Route path="" component={NotFoundPage} /> */}
-          </Switch>
-        </div>
+            </Switch>
+          </div>
+        </Layout>
       </Router>
     );
   }

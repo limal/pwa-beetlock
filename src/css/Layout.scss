@@ -1,0 +1,29 @@
+@import "./constants/colors.scss";
+@import "./constants/layout.scss";
+
+body {
+  background-color: $primary-color;
+  color: $text-color;
+}
+
+.Layout {
+  display: flex;
+  flex-direction: column;
+  max-width: $desktop-width;
+  margin: 20px auto;
+
+  @include tablet {
+    margin-top: 100px;
+  }
+
+  @include desktop {
+    margin-top: 100px;
+  }
+}
+
+.Layout-Header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  @include padding;
+}
