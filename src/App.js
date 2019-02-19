@@ -1,9 +1,19 @@
 import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+  Redirect,
+  withRouter
+} from "react-router-dom";
 import axios from "axios";
+import PrivateRoute from "./routes/PrivateRoute";
 import lockOpen from "./lock-open.png";
 import lockClosed from "./lock-closed.png";
-import "./App.css";
+import "./css/App.css";
 import { Angles } from "./Angles";
+import { Home } from "./common/Home";
 
 class App extends Component {
   state = {
@@ -50,24 +60,17 @@ class App extends Component {
     const { open } = this.state;
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">WB LOCK</h1>
-          <img src={open ? lockOpen : lockClosed} onClick={this.toggleLock} />
-          <Angles />
-          <div className="App-controls">
-            <h3 className="App-open" onClick={this.openLock}>
-              OPEN
-            </h3>
-            <h3 className="App-close" onClick={this.closeLock}>
-              CLOSE
-            </h3>
-          </div>
-          <h3 className="App-stop" onClick={this.stopLock}>
-            STOP
-          </h3>
-        </header>
-      </div>
+      <Router>
+        <div className="App">
+          <Switch>
+            {/* A user can't go to the HomePage if is not authenticated */}
+            <Route path="/" component={Home} exact />
+            {/* <Route path="/auth/:authType/:id?" component={AuthPage} />
+            <Route exact path="/connect/:provider" component={ConnectPage} />
+            <Route path="" component={NotFoundPage} /> */}
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
