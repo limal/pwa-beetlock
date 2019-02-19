@@ -1,12 +1,15 @@
 import React from "react";
 import { Form, Field } from "react-final-form";
 import createFocusDecorator from "final-form-focus";
+import { useOvermind } from "../state/index";
 import { required } from "common/forms/validators";
 import "../css/Auth.scss";
 
 const focusOnError = createFocusDecorator();
 
 export const Login = ({}) => {
+  const { state } = useOvermind();
+
   const onSubmit = values => {
     window.alert(JSON.stringify(values, 0, 2));
   };
@@ -49,6 +52,7 @@ export const Login = ({}) => {
                 Submit
               </button>
             </div>
+            {JSON.stringify(state)}
           </form>
         )}
       />
