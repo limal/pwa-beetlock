@@ -9,17 +9,16 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={props =>
-        state.accessToken ? (
+        state.authenticated ? (
           <Component {...props} />
-        ) : (
-          <pre>{JSON.stringify(state)}</pre>
-          // <Redirect
-          //   to={{
-          //     pathname: "/login",
-          //     state: { from: props.location }
-          //   }}
-          // />
-        )
+        ) : state.bootstrapped ? (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: props.location }
+            }}
+          />
+        ) : null
       }
     />
   );

@@ -68,7 +68,7 @@ export const App = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (!isEmpty(accessToken)) {
-      actions.setAccessToken(accessToken);
+      actions.authenticate({ accessToken });
     }
   }, [state.accessToken]);
 
@@ -77,14 +77,10 @@ export const App = () => {
       <Layout>
         <div className="App">
           <Switch>
-            {/* A user can't go to the HomePage if is not authenticated */}
             <Route path="/" component={Home} exact />
             <Route path="/login" component={Login} />
             <PrivateRoute path="/locks" component={Locks} exact />
-            {/* <Route exact path="/connect/:provider" component={ConnectPage} />
-            <Route path="" component={NotFoundPage} /> */}
           </Switch>
-          <pre>{JSON.stringify(state)}</pre>
         </div>
       </Layout>
     </Router>

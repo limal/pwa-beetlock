@@ -3,9 +3,12 @@ import { createHook } from "overmind-react";
 import axios from "axios";
 import to from "await-to-js";
 
+const SERVER_URL = "http://localhost:3001";
+
 export const overmind = new Overmind({
   state: {
     authenticated: false,
+    bootstrapped: false,
     accessToken: null,
     refreshToken: null,
     login: {
@@ -14,32 +17,42 @@ export const overmind = new Overmind({
     }
   },
   effects: {
-    request: async ({ username, password }) => {
+    authenticate: async ({ accessToken }) => {
+      let response, err;
+
+      console.log("* effects accessToken", accessToken);
+
+      [err, response] = await to(
+        axios.get(`${SERVER_URL}/user/info`, {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        })
+      );
+
+      return err ? err.response : response;
+    },
+    login: async ({ username, password }) => {
       let response, err;
 
       [err, response] = await to(
-        axios.post("http://localhost:3001/auth", {
+        axios.post(`${SERVER_URL}/auth`, {
           username,
           password
         })
       );
 
-      if (err) {
-        return err.response;
-      } else {
-        return response;
-      }
+      return err ? err.response : response;
     }
   },
   actions: {
     login: async ({ state, effects }, { username, password }) => {
       state.login.loading = true;
-      const response = await effects.request({
+      const response = await effects.login({
         username,
         password
       });
 
       if (response.status < 300) {
+        state.authenticated = true;
         state.accessToken = response.data.token;
         state.refreshToken = response.data.refresh_token;
         state.login.errors = null;
@@ -47,6 +60,7 @@ export const overmind = new Overmind({
         localStorage.setItem("accessToken", state.accessToken);
         localStorage.setItem("refreshToken", state.refreshToken);
       } else {
+        state.authenticated = false;
         state.accessToken = null;
         state.refreshToken = null;
         state.login.errors = response.data;
@@ -54,8 +68,14 @@ export const overmind = new Overmind({
 
       state.login.loading = false;
     },
-    setAccessToken: ({ state }, accessToken) => {
-      state.accessToken = accessToken;
+    authenticate: async ({ state, effects }, { accessToken }) => {
+      state.authenticated = false;
+      const response = await effects.authenticate({ accessToken });
+      if (response.status < 300) {
+        state.authenticated = true;
+      }
+
+      state.bootstrapped = true;
     }
   }
 });

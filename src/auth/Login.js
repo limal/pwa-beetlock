@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { isEmpty } from "ramda";
 import { Form, Field } from "react-final-form";
 import createFocusDecorator from "final-form-focus";
 import { useOvermind } from "../overmind/overmind";
@@ -8,7 +9,7 @@ import "../css/Auth.scss";
 
 const focusOnError = createFocusDecorator();
 
-export const Login = () => {
+export const Login = props => {
   const { state, actions } = useOvermind();
 
   const onSubmit = values => {
@@ -16,8 +17,10 @@ export const Login = () => {
   };
 
   useEffect(() => {
-    // redirect
-  }, [state.accessToken]);
+    if (state.authenticated) {
+      props.history.push("/locks");
+    }
+  }, [state.authenticated]);
 
   return (
     <div className="Login">
