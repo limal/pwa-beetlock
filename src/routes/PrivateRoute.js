@@ -1,33 +1,26 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { ROUTES } from "./routes";
+import { useOvermind } from "../overmind/overmind";
 
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    this.isAuthenticated = false;
-    setTimeout(cb, 100);
-  }
+export const PrivateRoute = ({ component: Component, ...rest }) => {
+  const { state } = useOvermind();
+
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        state.accessToken ? (
+          <Component {...props} />
+        ) : (
+          <pre>{JSON.stringify(state)}</pre>
+          // <Redirect
+          //   to={{
+          //     pathname: "/login",
+          //     state: { from: props.location }
+          //   }}
+          // />
+        )
+      }
+    />
+  );
 };
-
-export const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      fakeAuth.isAuthenticated ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: ROUTES.login,
-            state: { from: props.location }
-          }}
-        />
-      )
-    }
-  />
-);

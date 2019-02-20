@@ -43,6 +43,9 @@ export const overmind = new Overmind({
         state.accessToken = response.data.token;
         state.refreshToken = response.data.refresh_token;
         state.login.errors = null;
+        // TODO remove local storage and store server-side session
+        localStorage.setItem("accessToken", state.accessToken);
+        localStorage.setItem("refreshToken", state.refreshToken);
       } else {
         state.accessToken = null;
         state.refreshToken = null;
@@ -50,6 +53,9 @@ export const overmind = new Overmind({
       }
 
       state.login.loading = false;
+    },
+    setAccessToken: ({ state }, accessToken) => {
+      state.accessToken = accessToken;
     }
   }
 });

@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Form, Field } from "react-final-form";
 import createFocusDecorator from "final-form-focus";
-import { useOvermind } from "overmind/overmind";
+import { useOvermind } from "../overmind/overmind";
 import { required } from "common/forms/validators";
 import "../css/Auth.scss";
 
 const focusOnError = createFocusDecorator();
 
-export const Login = ({}) => {
+export const Login = () => {
   const { state, actions } = useOvermind();
 
   const onSubmit = values => {
@@ -63,6 +64,7 @@ export const Login = ({}) => {
               >
                 Submit
               </button>
+              <Link to="/locks">Locks</Link>
             </div>
           </form>
         )}
