@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import "../css/App.css";
 
 export class Home extends React.Component {
@@ -8,8 +8,8 @@ export class Home extends React.Component {
 
   render() {
     return (
-      <header className="App-header">
-        <h1 className="App-title">WB LOCK</h1>
+      <Fragment>
+        <h1 className="App-title" />
         {/* <img src={open ? lockOpen : lockClosed} onClick={this.toggleLock} />
         <Angles />
         <div className="App-controls">
@@ -23,7 +23,7 @@ export class Home extends React.Component {
         <h3 className="App-stop" onClick={this.stopLock}>
           STOP
         </h3> */}
-      </header>
+      </Fragment>
     );
   }
 }

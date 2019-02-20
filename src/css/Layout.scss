@@ -30,3 +30,49 @@ body {
   justify-content: space-between;
   @include padding;
 }
+
+.Flip-H {
+  transform: scaleX(-1);
+}
+
+.Opacity-75 {
+  opacity: 0.75;
+}
+
+.Logo {
+  line-height: 24px;
+}
+
+.Overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 0;
+}
+
+.MainMenu-IconContainer {
+  position: relative;
+}
+
+.MainMenu-Active {
+  fill: $primary-color;
+}
+
+.Hidden {
+  display: none;
+}
+
+.MainMenu-List {
+  position: absolute;
+  background: $primary-color;
+  color: $text-color;
+  @include Body;
+  top: 36px;
+  right: 0;
+  padding: 20px 40px;
+  border: solid 2px $secondary-color;
+  z-index: 1;
+}
