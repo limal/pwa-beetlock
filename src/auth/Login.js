@@ -14,6 +14,10 @@ export const Login = ({}) => {
     actions.login(values);
   };
 
+  useEffect(() => {
+    // redirect
+  }, [state.accessToken]);
+
   return (
     <div className="Login">
       <h1 className="Login-Header">Login</h1>
