@@ -1,0 +1,6 @@
+@import "./constants/constants.scss";
+
+.Locks {
+  @include padding;
+  margin-top: 40px;
+}

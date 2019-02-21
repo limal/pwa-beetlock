@@ -44,6 +44,15 @@ export const overmind = new Overmind({
     }
   },
   actions: {
+    authenticate: async ({ state, effects }, { accessToken }) => {
+      state.authenticated = false;
+      const response = await effects.authenticate({ accessToken });
+      if (response.status < 300) {
+        state.authenticated = true;
+      }
+
+      state.bootstrapped = true;
+    },
     login: async ({ state, effects }, { username, password }) => {
       state.login.loading = true;
       const response = await effects.login({
@@ -68,14 +77,11 @@ export const overmind = new Overmind({
 
       state.login.loading = false;
     },
-    authenticate: async ({ state, effects }, { accessToken }) => {
+    logout: ({ state }) => {
       state.authenticated = false;
-      const response = await effects.authenticate({ accessToken });
-      if (response.status < 300) {
-        state.authenticated = true;
-      }
-
-      state.bootstrapped = true;
+      state.accessToken = false;
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
     }
   }
 });

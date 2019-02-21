@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { isEmpty } from "ramda";
 import { Form, Field } from "react-final-form";
 import createFocusDecorator from "final-form-focus";
 import { useOvermind } from "../overmind/overmind";
@@ -67,7 +65,6 @@ export const Login = props => {
               >
                 Submit
               </button>
-              <Link to="/locks">Locks</Link>
             </div>
           </form>
         )}

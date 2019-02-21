@@ -76,3 +76,12 @@ body {
   border: solid 2px $secondary-color;
   z-index: 1;
 }
+
+.MainMenu-Item {
+  list-style: none;
+
+  a {
+    color: $text-color;
+    text-decoration: none;
+  }
+}
