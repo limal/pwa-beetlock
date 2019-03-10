@@ -3,7 +3,8 @@ import { createHook } from "overmind-react";
 import axios from "axios";
 import to from "await-to-js";
 
-const SERVER_URL = "http://localhost:3001";
+// const SERVER_URL = "http://localhost:3001";
+const BRIDGE_UUID = "3eaff70b-b611-4bb0-8d4c-baffb56f9455";
 
 export const overmind = new Overmind({
   state: {
@@ -47,7 +48,7 @@ export const overmind = new Overmind({
     authenticate: async ({ state, effects }, { accessToken }) => {
       state.authenticated = false;
       const response = await effects.authenticate({ accessToken });
-      if (response.status < 300) {
+      if (response && response.status < 300) {
         state.authenticated = true;
       }
 

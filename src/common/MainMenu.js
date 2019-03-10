@@ -9,7 +9,6 @@ export const MainMenu = () => {
   const [open, setOpen] = useState(false);
 
   const toggleOpen = e => {
-    e && e.preventDefault();
     setOpen(!open);
   };
 
@@ -27,8 +26,8 @@ export const MainMenu = () => {
   return (
     <div className="MainMenu">
       <Overlay open={open} handleClick={toggleOpen} />
-      <div className={`MainMenu-IconContainer `}>
-        <Menu className={open && "MainMenu-Active"} onClick={toggleOpen} />
+      <div className={`MainMenu-IconContainer`}>
+        <Menu className={open ? "MainMenu-Active" : ""} onClick={toggleOpen} />
         <div className={`MainMenu-List ${!open && "Hidden"}`}>
           {state.authenticated ? (
             <MenuItem handleClick={handleLogout}>Logout</MenuItem>

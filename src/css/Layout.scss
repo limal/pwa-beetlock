@@ -43,6 +43,11 @@ body {
   line-height: 24px;
 }
 
+.Logo-Link {
+  color: $text-color;
+  text-decoration: none;
+}
+
 .Overlay {
   position: absolute;
   top: 0;
