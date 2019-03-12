@@ -3,6 +3,7 @@ import { createHook } from "overmind-react";
 import axios from "axios";
 import to from "await-to-js";
 import { endpoints } from "../util/endpoints";
+import { BRIDGE_STEPS } from "../util/constants";
 
 const SERVER_URL = "http://localhost:3001";
 const BRIDGE_UUID = "3eaff70b-b611-4bb0-8d4c-baffb56f9455";
@@ -18,11 +19,12 @@ export const overmind = new Overmind({
       loading: false
     },
     bridge: {
-      found: false,
       ip: null,
+      step: BRIDGE_STEPS.none,
       ssid: null,
       wifis: [],
-      wifiSelected: null
+      wifiSelected: null,
+      wifiPassword: null
     }
   },
   effects: {
@@ -38,6 +40,13 @@ export const overmind = new Overmind({
       );
 
       return err ? err.response : response;
+    },
+    connectWifi: async ({ accessToken, ipAddress, ssid, password }) => {
+      let [err, response] = await to(
+        axios.post(endpoints.connectWifi(ipAddress), { ssid, password })
+      );
+
+      return err ? err.resopnse : response;
     },
     getBridge: async ({ accessToken }) => {
       let [err, response] = await to(
@@ -75,14 +84,27 @@ export const overmind = new Overmind({
 
       state.bootstrapped = true;
     },
+    connectWifi: async ({ state, effects }) => {
+      state.bridge.loading = true;
+      const response = await effects.connectWifi({
+        ipAddress: state.bridge.ip,
+        ssid: state.bridge.wifiSelected,
+        password: state.bridge.wifiPassword
+      });
+      if (response && response.status < 300) {
+        state.bridge.step = BRIDGE_STEPS.confirmingNewWifi;
+      }
+      state.bridge.loading = false;
+    },
     getBridge: async ({ state, effects }, { accessToken } = {}) => {
-      state.bridge.found = false;
       state.bridge.wifis = [];
       const response = await effects.getBridge({ accessToken });
       if (response && response.status < 300) {
-        state.bridge.found = true;
+        state.bridge.step = BRIDGE_STEPS.passwordRequired;
         state.bridge.ip = "localhost:3020"; //response.data.ip + ":3020";
         state.bridge.ssid = response.data.ssid;
+      } else {
+        state.bridge.step = BRIDGE_STEPS.error;
       }
     },
     getWifis: async ({ state, effects }, { accessToken } = {}) => {
@@ -129,8 +151,9 @@ export const overmind = new Overmind({
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
     },
-    setWifiSelected: ({ state }, { wifiSelected }) => {
+    setWifiSelected: ({ state }, { wifiSelected, wifiPassword }) => {
       state.bridge.wifiSelected = wifiSelected;
+      state.bridge.wifiPassword = wifiPassword;
     }
   }
 });

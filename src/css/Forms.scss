@@ -17,18 +17,22 @@
 select {
   font-size: 20px;
   padding: 20px 20px;
-  margin: 10px 0 30px 0px;
+  margin: 0 0 20px 0;
   width: 100%;
 }
 
 .Input-Error {
   @include Body;
   display: block;
-  margin: 8px 0 20px 21px;
+  margin: 8px 0 20px 0px;
   color: $validation-error;
   box-sizing: border-box;
   text-align: left;
   width: 100%;
+}
+
+.Input-Error--select {
+  margin-top: -10px;
 }
 
 .Form-Errors {
@@ -55,4 +59,9 @@ select {
 
 .Button--padded {
   margin: 20px 0 40px 0;
+}
+
+.Link {
+  text-decoration: underline;
+  margin: 20px 0;
 }
