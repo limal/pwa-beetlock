@@ -20,6 +20,7 @@ import { Home } from "./common/Home";
 import { Login } from "./auth/Login";
 import { Locks } from "./locks/Locks";
 import { action } from "overmind";
+import { ROUTES } from "./routes/routes";
 
 // class App extends Component {
 //   state = {
@@ -78,8 +79,8 @@ export const App = () => {
         <div className="App">
           <Switch>
             <Route path="/" component={Home} exact />
-            <Route path="/login" component={Login} />
-            <PrivateRoute path="/locks" component={Locks} exact />
+            <Route path={ROUTES.login} component={Login} />
+            <PrivateRoute path={ROUTES.locks} component={Locks} exact />
           </Switch>
         </div>
       </Layout>

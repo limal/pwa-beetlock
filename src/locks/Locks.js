@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useOvermind } from "../overmind/overmind";
+import { WifiSetup } from "./WifiSetup";
 import "../css/Locks.scss";
 
 export const Locks = () => {
@@ -7,26 +8,24 @@ export const Locks = () => {
 
   const getBridge = e => {
     e.preventDefault();
-    actions.getBridge({});
+    actions.getBridge();
   };
 
   return (
     <div className="Locks">
       {state.bridge.found ? (
-        <div>Bridge found!</div>
+        <WifiSetup />
       ) : (
         <div>
           <p>Please connect to your bridge first</p>
-          <div className="Login-Buttons">
-            <button
-              className="Button"
-              type="submit"
-              onClick={getBridge}
-              disabled={state.bridge.loading}
-            >
-              Find bridge
-            </button>
-          </div>
+          <button
+            className="Button Button--padded"
+            type="submit"
+            onClick={getBridge}
+            disabled={state.bridge.loading}
+          >
+            Find bridge
+          </button>
         </div>
       )}
     </div>

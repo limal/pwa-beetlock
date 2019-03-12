@@ -14,6 +14,13 @@
   }
 }
 
+select {
+  font-size: 20px;
+  padding: 20px 20px;
+  margin: 10px 0 30px 0px;
+  width: 100%;
+}
+
 .Input-Error {
   @include Body;
   display: block;
@@ -44,4 +51,8 @@
   padding: 20px;
   text-transform: uppercase;
   width: 100%;
+}
+
+.Button--padded {
+  margin: 20px 0 40px 0;
 }

@@ -77,12 +77,12 @@ body {
   @include Body;
   top: 36px;
   right: 0;
-  padding: 20px 40px;
   border: solid 2px $secondary-color;
   z-index: 1;
 }
 
 .MainMenu-Item {
+  padding: 20px 40px;
   list-style: none;
 
   a {

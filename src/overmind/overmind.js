@@ -19,7 +19,10 @@ export const overmind = new Overmind({
     },
     bridge: {
       found: false,
-      wifis: []
+      ip: null,
+      ssid: null,
+      wifis: [],
+      wifiSelected: null
     }
   },
   effects: {
@@ -40,6 +43,12 @@ export const overmind = new Overmind({
       let [err, response] = await to(
         axios.post(endpoints.getBridge, { uuid: BRIDGE_UUID })
       );
+
+      return err ? err.resopnse : response;
+    },
+    getWifis: async ({ accessToken, ipAddress }) => {
+      console.log("* ip", ipAddress, endpoints.getWifis(ipAddress));
+      let [err, response] = await to(axios.get(endpoints.getWifis(ipAddress)));
 
       return err ? err.resopnse : response;
     },
@@ -66,13 +75,26 @@ export const overmind = new Overmind({
 
       state.bootstrapped = true;
     },
-    getBridge: async ({ state, effects }, { accessToken }) => {
+    getBridge: async ({ state, effects }, { accessToken } = {}) => {
       state.bridge.found = false;
       state.bridge.wifis = [];
       const response = await effects.getBridge({ accessToken });
       if (response && response.status < 300) {
         state.bridge.found = true;
-        state.bridge.wifis = response;
+        state.bridge.ip = "localhost:3020"; //response.data.ip + ":3020";
+        state.bridge.ssid = response.data.ssid;
+      }
+    },
+    getWifis: async ({ state, effects }, { accessToken } = {}) => {
+      state.bridge.loading = true;
+      state.bridge.wifis = [];
+      const response = await effects.getWifis({
+        accessToken,
+        ipAddress: state.bridge.ip
+      });
+      state.bridge.loading = false;
+      if (response && response.status < 300) {
+        state.bridge.wifis = response.data;
       }
     },
     login: async ({ state, effects }, { username, password }) => {
@@ -106,6 +128,9 @@ export const overmind = new Overmind({
       state.accessToken = false;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+    },
+    setWifiSelected: ({ state }, { wifiSelected }) => {
+      state.bridge.wifiSelected = wifiSelected;
     }
   }
 });
