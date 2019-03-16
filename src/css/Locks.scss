@@ -6,6 +6,18 @@
   margin-top: 40px;
 }
 
+.Locks__Header {
+  @include H2;
+}
+
+.Locks__Subheader {
+  @include H3;
+}
+
+.Locks__Spinner {
+  margin: 40px 0;
+}
+
 .Bridge {
 }
 

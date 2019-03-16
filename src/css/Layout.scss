@@ -90,3 +90,21 @@ body {
     text-decoration: none;
   }
 }
+
+.Details {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.Details dt {
+  flex: 0 0 50%;
+  margin: 6px 0;
+}
+
+.Details dd {
+  flex: 0 0 50%;
+  margin: 6px 0;
+  font-weight: bold;
+}

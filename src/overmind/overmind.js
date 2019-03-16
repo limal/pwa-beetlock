@@ -23,6 +23,7 @@ export const overmind = new Overmind({
       step: BRIDGE_STEPS.none,
       ssid: null,
       wifis: [],
+      wifiReported: null,
       wifiSelected: null,
       wifiPassword: null
     }
@@ -83,6 +84,13 @@ export const overmind = new Overmind({
       }
 
       state.bootstrapped = true;
+    },
+    checkWifi: async ({ state, effects }, { accessToken } = {}) => {
+      const response = await effects.getBridge({ accessToken });
+      if (response && response.status < 300) {
+        state.bridge.updatedAt = response.data.updated_at;
+        state.bridge.wifiReported = response.data.ssid;
+      }
     },
     connectWifi: async ({ state, effects }) => {
       state.bridge.loading = true;

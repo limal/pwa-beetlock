@@ -2,10 +2,26 @@ import React, { useEffect } from "react";
 import { useOvermind } from "../overmind/overmind";
 import { WifiSetup } from "./WifiSetup";
 import { BRIDGE_STEPS } from "../util/constants";
+import { Spinner } from "../common/Spinner";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import "../css/Locks.scss";
+
+const CHECK_WIFI_INTERVAL = 5000;
+
+dayjs.extend(relativeTime);
 
 export const Locks = () => {
   const { state, actions } = useOvermind();
+  let interval = null;
+
+  useEffect(() => {
+    if (state.bridge.step === BRIDGE_STEPS.confirmingNewWifi && !interval) {
+      interval = setInterval(() => {
+        actions.checkWifi();
+      }, CHECK_WIFI_INTERVAL);
+    }
+  }, [state.bridge.step]);
 
   const getBridge = e => {
     e.preventDefault();
@@ -30,9 +46,17 @@ export const Locks = () => {
       {state.bridge.step === BRIDGE_STEPS.passwordRequired && <WifiSetup />}
       {state.bridge.step === BRIDGE_STEPS.confirmingNewWifi && (
         <div>
-          <h1>
-            Thanks! Let's wait until we connect to the bridge via your WiFi
+          <h1 className="Locks__Header">
+            Waiting for bridge to connect to Internet...
           </h1>
+          <Spinner className="Locks__Spinner" />
+          <h2 className="Locks__Subheader">Bridge last contact:</h2>
+          <dl className="Details">
+            <dt>SSID</dt>
+            <dd>{state.bridge.wifiReported}</dd>
+            <dt>Updated at</dt>
+            <dd>{dayjs(state.bridge.updatedAt).fromNow()}</dd>
+          </dl>
         </div>
       )}
     </div>

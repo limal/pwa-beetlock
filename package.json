@@ -5,6 +5,7 @@
   "dependencies": {
     "await-to-js": "^2.1.1",
     "axios": "^0.18.0",
+    "dayjs": "^1.8.10",
     "final-form": "^4.11.1",
     "final-form-focus": "^1.1.2",
     "material-ui": "^0.20.2",
