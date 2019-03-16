@@ -49,13 +49,16 @@ export const Locks = () => {
           <h1 className="Locks__Header">
             Waiting for bridge to connect to Internet...
           </h1>
-          <Spinner className="Locks__Spinner" />
+          <Spinner width={80} className="Locks__Spinner" />
           <h2 className="Locks__Subheader">Bridge last contact:</h2>
           <dl className="Details">
             <dt>SSID</dt>
             <dd>{state.bridge.wifiReported}</dd>
             <dt>Updated at</dt>
-            <dd>{dayjs(state.bridge.updatedAt).fromNow()}</dd>
+            <dd>
+              {state.bridge.updatedAt &&
+                dayjs(state.bridge.updatedAt).fromNow()}
+            </dd>
           </dl>
         </div>
       )}
