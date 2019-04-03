@@ -5,7 +5,8 @@ import to from "await-to-js";
 import { endpoints } from "../util/endpoints";
 import { BRIDGE_STEPS } from "../util/constants";
 
-const SERVER_URL = "http://localhost:3001";
+// const SERVER_URL = "http://localhost:3001";
+const SERVER_URL = "http://open.wb-lock.com:32100";
 const BRIDGE_UUID = "3eaff70b-b611-4bb0-8d4c-baffb56f9455";
 
 export const overmind = new Overmind({

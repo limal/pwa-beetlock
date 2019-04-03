@@ -33,6 +33,11 @@ export const MainMenu = () => {
           {state.authenticated ? (
             <React.Fragment>
               <MenuItem>
+                <Link to={ROUTES.home} onClick={toggleOpen}>
+                  Home
+                </Link>
+              </MenuItem>
+              <MenuItem>
                 <Link to={ROUTES.locks} onClick={toggleOpen}>
                   Locks
                 </Link>

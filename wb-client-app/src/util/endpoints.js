@@ -1,5 +1,5 @@
-// const WB_CLOUD_URL = "http://open.wb-lock.com:5001";
-const WB_CLOUD_URL = "http://localhost:5001";
+const WB_CLOUD_URL = "http://open.wb-lock.com:32100";
+// const WB_CLOUD_URL = "http://localhost:5001";
 const WB_NODE_PROTOCOL = "http://";
 
 export const endpoints = {

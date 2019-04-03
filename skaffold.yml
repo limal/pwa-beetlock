@@ -1,0 +1,12 @@
+apiVersion: skaffold/v1beta7
+kind: Config
+build:
+  artifacts:
+    - image: cloud.canister.io:5000/wolnik/wb-client-app
+      context: wb-client-app
+      sync:
+        "src/*": src/
+deploy:
+  kubectl:
+    manifests:
+      - "kubernetes/**"
