@@ -47,6 +47,12 @@
   text-align: center;
 }
 
+.FindBridge__Spinner {
+  color: $third-color;
+  display: block;
+  margin: -20px auto 0 auto;
+}
+
 .FindBridge__Form .FindBridge__Input input {
   letter-spacing: 8px;
   font-size: 24px;

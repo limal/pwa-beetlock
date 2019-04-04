@@ -18,8 +18,7 @@ import { Layout } from "./common/Layout";
 import { Home } from "./common/Home";
 import { Login } from "./auth/Login";
 import { Locks } from "./locks/Locks";
-import { Onboarding } from "./common/Onboarding";
-import { action } from "overmind";
+import { HotSpot } from "./common/HotSpot";
 import { ROUTES } from "./routes/routes";
 import { FindBridge } from "./locks/FindBridge";
 
@@ -80,9 +79,10 @@ export const App = () => {
         <div className="App">
           <Switch>
             <Route path={ROUTES.home} component={Home} exact />
-            <Route path={ROUTES.login} component={Login} />
+            <Route path={ROUTES.hotSpot} component={HotSpot} />
             <Route path={ROUTES.findBridge} component={FindBridge} />
             <PrivateRoute path={ROUTES.locks} component={Locks} exact />
+            <Route path={ROUTES.login} component={Login} />
           </Switch>
         </div>
       </Layout>

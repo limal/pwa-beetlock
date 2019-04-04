@@ -9,7 +9,7 @@ export const Onboarding = ({ history }) => {
   const { state, actions } = useOvermind();
 
   const handleConnect = e => {
-    history.push(ROUTES.findBridge);
+    history.push(ROUTES.hotSpot);
   };
 
   return (
@@ -25,7 +25,7 @@ export const Onboarding = ({ history }) => {
       <input
         className="Button"
         type="submit"
-        value="CONNECT"
+        value="NEXT"
         onClick={handleConnect}
       />
     </div>

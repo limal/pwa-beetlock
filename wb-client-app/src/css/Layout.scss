@@ -140,3 +140,26 @@ body {
 .Onboarding__Icon {
   color: $third-color;
 }
+
+.HotSpot {
+  @include padding;
+  margin-top: 40px;
+}
+
+.HotSpot__Header {
+  @include H1;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.HotSpot__Text {
+  text-align: center;
+}
+
+.HotSpot__Buttons {
+  margin-top: 32px;
+}
+
+.GoBack {
+  text-align: center;
+}

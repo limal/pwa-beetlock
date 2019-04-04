@@ -22,6 +22,8 @@ export const overmind = new Overmind({
     },
     bridge: {
       ip: null,
+      userFriendlyId: "0001-50000",
+      finding: false,
       step: BRIDGE_STEPS.none,
       ssid: null,
       wifis: [],
@@ -87,6 +89,9 @@ export const overmind = new Overmind({
 
       state.bootstrapped = true;
     },
+    cancelFindingBridge: ({ state }) => {
+      state.bridge.finding = false;
+    },
     checkWifi: async ({ state, effects }, { accessToken } = {}) => {
       const response = await effects.getBridge({ accessToken });
       if (response && response.status < 300) {
@@ -105,6 +110,12 @@ export const overmind = new Overmind({
         state.bridge.step = BRIDGE_STEPS.confirmingNewWifi;
       }
       state.bridge.loading = false;
+    },
+    findBridge: async ({ state, effects }, { userFriendlyId }) => {
+      state.bridge.userFriendlyId = userFriendlyId;
+      state.bridge.finding = true;
+
+      console.log("* ", userFriendlyId);
     },
     getBridge: async ({ state, effects }, { accessToken } = {}) => {
       state.bridge.wifis = [];
