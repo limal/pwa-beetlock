@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Form, Field } from "react-final-form";
 import createFocusDecorator from "final-form-focus";
 import { useOvermind } from "../overmind/overmind";
+import { ROUTES } from "../routes/routes";
 import { required } from "common/forms/validators";
 import "../css/Auth.scss";
 
@@ -16,7 +17,7 @@ export const Login = props => {
 
   useEffect(() => {
     if (state.authenticated) {
-      props.history.push("/locks");
+      props.history.push(ROUTES.locks);
     }
   }, [state.authenticated]);
 

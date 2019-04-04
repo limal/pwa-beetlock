@@ -13,12 +13,12 @@ import axios from "axios";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import lockOpen from "./lock-open.png";
 import lockClosed from "./lock-closed.png";
-import "./css/App.css";
 import { Angles } from "./Angles";
 import { Layout } from "./common/Layout";
 import { Home } from "./common/Home";
 import { Login } from "./auth/Login";
 import { Locks } from "./locks/Locks";
+import { Onboarding } from "./common/Onboarding";
 import { action } from "overmind";
 import { ROUTES } from "./routes/routes";
 

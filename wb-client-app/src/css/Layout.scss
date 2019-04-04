@@ -108,3 +108,27 @@ body {
   margin: 6px 0;
   font-weight: bold;
 }
+
+.Onboarding {
+  @include padding;
+  margin-top: 40px;
+}
+
+.Onboarding__Header {
+  @include H1;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.Onboarding__Text {
+  text-align: center;
+}
+
+.Onboarding__Bridge {
+  margin: 40px 0;
+  text-align: center;
+}
+
+.Onboarding__Icon {
+  color: $third-color;
+}
