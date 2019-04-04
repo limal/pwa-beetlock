@@ -16,13 +16,13 @@ export const Bridge = ({ width = 128, height = 128, ...props }) => (
       d="M61.71 19.562A34.21 34.21 0 0 0 32.233 4.247 34.21 34.21 0 0 0 3.651 21.175"
       fill="none"
       stroke="currentColor"
-      stroke-width="8.467"
+      strokeWidth="8.467"
     />
     <path
       d="M48.158 27.887a18.319 18.319 0 0 0-15.247-7.76 18.319 18.319 0 0 0-15.007 8.215"
       fill="none"
       stroke="currentColor"
-      stroke-width="8.467"
+      strokeWidth="8.467"
     />
     <path
       d="M87.193 49.833v48.466h48.466V49.833zm8.72 19.02h10.424v10.424H95.914zm20.6 0h10.423v10.424h-10.423z"
@@ -32,7 +32,7 @@ export const Bridge = ({ width = 128, height = 128, ...props }) => (
       d="M32.075 121.827c-.596 45.503 76.504 49.986 78.997-27.592"
       fill="none"
       stroke="currentColor"
-      stroke-width="4.233"
+      strokeWidth="4.233"
     />
   </svg>
 );

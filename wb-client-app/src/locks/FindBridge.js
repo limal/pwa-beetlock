@@ -8,8 +8,11 @@ import { required } from "../common/forms/validators";
 import { GoBack } from "../common/GoBack";
 import { ROUTES } from "../routes/routes";
 import "../css/Locks.scss";
+import { action } from "overmind";
 
 const focusOnError = createFocusDecorator();
+
+const CHECK_BRIDGE_INTERVAL = 5000;
 
 const parseNumbersOnly = value => {
   const onlyNumbers = value.replace(/[^\d]/g, "");
@@ -17,8 +20,31 @@ const parseNumbersOnly = value => {
   return formatStringByPattern("9999-99999", onlyNumbers);
 };
 
+let interval = null;
+
 export const FindBridge = ({ history }) => {
   const { state, actions } = useOvermind();
+
+  useEffect(() => {
+    if (state.bridge.ip && state.bridge.ip.length > 0) {
+      history.push(ROUTES.foundBridge);
+      return;
+    }
+
+    if (state.bridge.finding === true && !interval) {
+      interval = setInterval(() => {
+        actions.findBridge({ userFriendlyId: state.bridge.userFriendlyId });
+      }, CHECK_BRIDGE_INTERVAL);
+
+      console.log("* new interval", interval);
+    }
+
+    if (!state.bridge.finding && interval) {
+      console.log("* clearing interval", interval);
+      clearInterval(interval);
+      interval = null;
+    }
+  }, [state.bridge.finding, state.bridge.ip]);
 
   const onCancel = e => {
     actions.cancelFindingBridge();

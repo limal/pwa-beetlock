@@ -21,6 +21,7 @@ import { Locks } from "./locks/Locks";
 import { HotSpot } from "./common/HotSpot";
 import { ROUTES } from "./routes/routes";
 import { FindBridge } from "./locks/FindBridge";
+import { FoundBridge } from "./locks/FoundBridge";
 
 // class App extends Component {
 //   state = {
@@ -81,6 +82,7 @@ export const App = () => {
             <Route path={ROUTES.home} component={Home} exact />
             <Route path={ROUTES.hotSpot} component={HotSpot} />
             <Route path={ROUTES.findBridge} component={FindBridge} />
+            <Route path={ROUTES.foundBridge} component={FoundBridge} />
             <PrivateRoute path={ROUTES.locks} component={Locks} exact />
             <Route path={ROUTES.login} component={Login} />
           </Switch>

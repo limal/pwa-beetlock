@@ -4,6 +4,7 @@ const WB_NODE_PROTOCOL = "http://";
 
 export const endpoints = {
   connectWifi: ipAddress => `${WB_NODE_PROTOCOL}${ipAddress}/wifi`,
+  findBridge: `${WB_CLOUD_URL}/get-bridge`,
   getBridge: `${WB_CLOUD_URL}/get-bridge`,
   getWifis: ipAddress => `${WB_NODE_PROTOCOL}${ipAddress}/`
 };

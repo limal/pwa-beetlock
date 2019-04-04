@@ -22,7 +22,7 @@ export const overmind = new Overmind({
     },
     bridge: {
       ip: null,
-      userFriendlyId: "0001-50000",
+      userFriendlyId: null,
       finding: false,
       step: BRIDGE_STEPS.none,
       ssid: null,
@@ -49,6 +49,13 @@ export const overmind = new Overmind({
     connectWifi: async ({ accessToken, ipAddress, ssid, password }) => {
       let [err, response] = await to(
         axios.post(endpoints.connectWifi(ipAddress), { ssid, password })
+      );
+
+      return err ? err.resopnse : response;
+    },
+    findBridge: async ({ accessToken, userFriendlyId }) => {
+      let [err, response] = await to(
+        axios.post(endpoints.findBridge, { userFriendlyId })
       );
 
       return err ? err.resopnse : response;
@@ -115,7 +122,14 @@ export const overmind = new Overmind({
       state.bridge.userFriendlyId = userFriendlyId;
       state.bridge.finding = true;
 
-      console.log("* ", userFriendlyId);
+      const response = await effects.findBridge({ userFriendlyId });
+      if (response && response.status < 300) {
+        console.log("* response", response);
+        if (response.data.status === "ok") {
+          state.bridge.finding = false;
+          state.bridge.ip = response.data.bridge.ip;
+        }
+      }
     },
     getBridge: async ({ state, effects }, { accessToken } = {}) => {
       state.bridge.wifis = [];

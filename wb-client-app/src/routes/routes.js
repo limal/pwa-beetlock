@@ -2,6 +2,8 @@ export const ROUTES = {
   home: "/",
   hotSpot: "/hotspot",
   findBridge: "/findBridge",
+  foundBridge: "/foundBridge",
   login: "/login",
-  locks: "/locks"
+  locks: "/locks",
+  signUp: "/signup"
 };

@@ -1,6 +1,6 @@
 export const BRIDGE_STEPS = {
-  none: 10,
-  passwordRequired: 20,
-  confirmingNewWifi: 30,
+  none: 1,
+  passwordRequired: 30,
+  confirmingNewWifi: 40,
   error: 999
 };

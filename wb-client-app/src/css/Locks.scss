@@ -18,9 +18,6 @@
   margin: 40px 0;
 }
 
-.Bridge {
-}
-
 .Password-Hint {
   font-size: 12px;
   text-align: justify;
@@ -64,4 +61,21 @@
 
 .FindBridge__Input input:focus {
   outline: none;
+}
+
+.FoundBridge {
+  @include padding;
+  margin-top: 40px;
+}
+
+.FoundBridge__Header {
+  @include H1;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.FoundBridge__Icon {
+  display: block;
+  margin: 0 auto 40px auto;
+  color: $third-color;
 }
