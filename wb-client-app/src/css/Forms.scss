@@ -35,6 +35,10 @@ select {
   margin-top: -10px;
 }
 
+.Input-Error--center {
+  text-align: center;
+}
+
 .Form-Errors {
   @include Body2Plus;
   background: $validation-error-opacity;

@@ -21,10 +21,6 @@
 .Bridge {
 }
 
-.Text {
-  font-size: 14px;
-}
-
 .Password-Hint {
   font-size: 12px;
   text-align: justify;
@@ -49,4 +45,17 @@
   @include H1;
   margin-bottom: 32px;
   text-align: center;
+}
+
+.FindBridge__Form .FindBridge__Input input {
+  letter-spacing: 8px;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.FindBridge__Input input:focus {
+  outline: none;
 }

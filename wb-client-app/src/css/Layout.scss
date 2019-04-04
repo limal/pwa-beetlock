@@ -31,6 +31,14 @@ body {
   @include padding;
 }
 
+.Text {
+  font-size: 14px;
+}
+
+.Text--center {
+  text-align: center;
+}
+
 .Flip-H {
   transform: scaleX(-1);
 }
