@@ -39,3 +39,14 @@
   margin: 20px 0;
   display: inline-block;
 }
+
+.FindBridge {
+  @include padding;
+  margin-top: 40px;
+}
+
+.FindBridge__Header {
+  @include H1;
+  margin-bottom: 32px;
+  text-align: center;
+}

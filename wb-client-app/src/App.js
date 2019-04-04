@@ -21,6 +21,7 @@ import { Locks } from "./locks/Locks";
 import { Onboarding } from "./common/Onboarding";
 import { action } from "overmind";
 import { ROUTES } from "./routes/routes";
+import { FindBridge } from "./locks/FindBridge";
 
 // class App extends Component {
 //   state = {
@@ -78,8 +79,9 @@ export const App = () => {
       <Layout>
         <div className="App">
           <Switch>
-            <Route path="/" component={Home} exact />
+            <Route path={ROUTES.home} component={Home} exact />
             <Route path={ROUTES.login} component={Login} />
+            <Route path={ROUTES.findBridge} component={FindBridge} />
             <PrivateRoute path={ROUTES.locks} component={Locks} exact />
           </Switch>
         </div>

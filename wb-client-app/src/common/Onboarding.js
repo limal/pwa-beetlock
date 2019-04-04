@@ -9,7 +9,7 @@ export const Onboarding = ({ history }) => {
   const { state, actions } = useOvermind();
 
   const handleConnect = e => {
-    history.push(ROUTES.locks);
+    history.push(ROUTES.findBridge);
   };
 
   return (
