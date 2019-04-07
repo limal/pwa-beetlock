@@ -92,7 +92,8 @@ body {
 .MainMenu-Item {
   list-style: none;
 
-  a {
+  a,
+  span {
     display: block;
     color: $text-color;
     padding: 20px 40px;

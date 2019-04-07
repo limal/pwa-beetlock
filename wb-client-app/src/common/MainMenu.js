@@ -42,7 +42,9 @@ export const MainMenu = () => {
                   Locks
                 </Link>
               </MenuItem>
-              <MenuItem handleClick={handleLogout}>Logout</MenuItem>
+              <MenuItem handleClick={handleLogout}>
+                <span>Logout</span>
+              </MenuItem>
             </Fragment>
           ) : (
             <Fragment>

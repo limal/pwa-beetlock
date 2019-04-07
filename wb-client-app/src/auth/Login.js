@@ -26,7 +26,6 @@ export const Login = props => {
       <h1 className="Login-Header">Login</h1>
       <Form
         onSubmit={onSubmit}
-        initialValues={{ username: "limal", password: "dupa8" }}
         decorators={[focusOnError]}
         render={({ handleSubmit, reset, submitting, pristine, values }) => (
           <form className="Login-Form" onSubmit={handleSubmit}>

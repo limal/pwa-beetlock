@@ -69,11 +69,19 @@ export const App = () => {
   const { state, actions } = useOvermind();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (!isEmpty(accessToken)) {
-      actions.authenticate({ accessToken });
+    if (state.bridge.ip === null) {
+      const ipAddress = localStorage.getItem("bridgeIp");
+
+      if (ipAddress) {
+        actions.getStatus({ ipAddress });
+      }
+    } else {
+      const accessToken = localStorage.getItem("accessToken");
+      if (state.bridge.ip !== null && !isEmpty(accessToken)) {
+        actions.authenticate({ accessToken });
+      }
     }
-  }, [state.accessToken]);
+  }, [state.bridge.ip]);
 
   return (
     <Router>

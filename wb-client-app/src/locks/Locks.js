@@ -32,7 +32,7 @@ export const Locks = () => {
     <div className="Locks">
       {state.bridge.step === BRIDGE_STEPS.none && (
         <div>
-          <p>Please connect to your bridge first</p>
+          <p>Please change your to your bridge first</p>
           <button
             className="Button Button--padded"
             type="submit"

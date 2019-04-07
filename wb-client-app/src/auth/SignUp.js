@@ -8,11 +8,11 @@ import "../css/Auth.scss";
 
 const focusOnError = createFocusDecorator();
 
-export const SignUp = props => {
+export const SignUp = ({ history, ...props }) => {
   const { state, actions } = useOvermind();
 
   const onSubmit = values => {
-    actions.login(values);
+    actions.register(values);
   };
 
   useEffect(() => {
@@ -75,6 +75,12 @@ export const SignUp = props => {
           </form>
         )}
       />
+      <p className="GoBack">
+        or{" "}
+        <span className="Link" onClick={e => history.push(ROUTES.login)}>
+          login
+        </span>
+      </p>
     </div>
   );
 };

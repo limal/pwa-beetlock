@@ -33,13 +33,13 @@ export const overmind = new Overmind({
     }
   },
   effects: {
-    authenticate: async ({ accessToken }) => {
+    authenticate: async ({ accessToken, ipAddress }) => {
       let response, err;
 
       console.log("* effects accessToken", accessToken);
 
       [err, response] = await to(
-        axios.get(`${SERVER_URL}/user/info`, {
+        axios.get(endpoints.userInfo(ipAddress), {
           headers: { Authorization: `Bearer ${accessToken}` }
         })
       );
@@ -76,11 +76,25 @@ export const overmind = new Overmind({
 
       return err ? err.response : response;
     },
-    login: async ({ username, password }) => {
+    login: async ({ ipAddress, username, password }) => {
       let response, err;
 
       [err, response] = await to(
-        axios.post(`${SERVER_URL}/auth`, {
+        axios.post(endpoints.auth(ipAddress), {
+          username,
+          password
+        })
+      );
+
+      return err ? err.response : response;
+    },
+    register: async ({ ipAddress, username, password }) => {
+      let response, err;
+
+      console.log("* ip", ipAddress, username, password);
+
+      [err, response] = await to(
+        axios.post(endpoints.register(ipAddress), {
           username,
           password
         })
@@ -92,10 +106,15 @@ export const overmind = new Overmind({
   actions: {
     authenticate: async ({ state, effects }, { accessToken }) => {
       state.authenticated = false;
-      const response = await effects.authenticate({ accessToken });
+      const response = await effects.authenticate({
+        accessToken,
+        ipAddress: state.bridge.ip
+      });
       if (response && response.status < 300) {
         state.authenticated = true;
       }
+
+      console.log("* state", state.authenticated);
 
       state.bootstrapped = true;
     },
@@ -129,15 +148,25 @@ export const overmind = new Overmind({
       if (response && response.status < 300) {
         if (response.data.status === "ok") {
           const ipAddress = response.data.bridge.ip;
+          state.bridge.error = null;
           // check if the bridge central API is working
           response = await effects.getStatus({ ipAddress });
-          if (response.status === "ok2") {
+          if (response.data.status === "ok") {
             state.bridge.finding = false;
             state.bridge.ip = ipAddress;
+
+            localStorage.setItem("bridgeIp", state.bridge.ip);
           } else {
             state.bridge.error = `Found the bridge but cannot connect to it at "${ipAddress}".`;
           }
         }
+      }
+    },
+    getStatus: async ({ state, effects }, { ipAddress }) => {
+      const response = await effects.getStatus({ ipAddress });
+      if (response.data.status === "ok") {
+        state.bridge.ip = ipAddress;
+        console.log("* ip set");
       }
     },
     getWifis: async ({ state, effects }, { accessToken } = {}) => {
@@ -155,11 +184,10 @@ export const overmind = new Overmind({
     login: async ({ state, effects }, { username, password }) => {
       state.login.loading = true;
       const response = await effects.login({
+        ipAddress: state.bridge.ip,
         username,
         password
       });
-
-      console.log("* response", response);
 
       if (response && response.status < 300) {
         state.authenticated = true;
@@ -187,6 +215,17 @@ export const overmind = new Overmind({
     setWifiSelected: ({ state }, { wifiSelected, wifiPassword }) => {
       state.bridge.wifiSelected = wifiSelected;
       state.bridge.wifiPassword = wifiPassword;
+    },
+    register: async ({ state, effects }, { username, password }) => {
+      console.log("* username", username, password);
+
+      const response = effects.register({
+        ipAddress: state.bridge.ip,
+        username,
+        password
+      });
+
+      console.log("* response", response);
     }
   }
 });
