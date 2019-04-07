@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { useOvermind } from "../overmind/overmind";
 import { Menu } from "./icons/Menu";
+import { Key } from "./icons/Key";
 import { Overlay } from "./Overlay";
 import { ROUTES } from "../routes/routes";
 
@@ -28,6 +29,7 @@ export const MainMenu = () => {
     <div className="MainMenu">
       <Overlay open={open} handleClick={toggleOpen} />
       <div className={`MainMenu-IconContainer`}>
+        {state.authenticated && <Key className="Key" />}
         <Menu className={open ? "MainMenu-Active" : ""} onClick={toggleOpen} />
         <div className={`MainMenu-List ${!open && "Hidden"}`}>
           {state.authenticated ? (
