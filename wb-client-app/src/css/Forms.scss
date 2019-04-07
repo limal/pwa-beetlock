@@ -39,6 +39,7 @@ select {
   text-align: center;
 }
 
+.ErrorMessage,
 .Form-Errors {
   @include Body2Plus;
   background: $validation-error-opacity;

@@ -27,6 +27,7 @@ export const FindBridge = ({ history }) => {
 
   useEffect(() => {
     if (state.bridge.ip && state.bridge.ip.length > 0) {
+      clearInterval(interval);
       history.push(ROUTES.foundBridge);
       return;
     }
@@ -35,12 +36,9 @@ export const FindBridge = ({ history }) => {
       interval = setInterval(() => {
         actions.findBridge({ userFriendlyId: state.bridge.userFriendlyId });
       }, CHECK_BRIDGE_INTERVAL);
-
-      console.log("* new interval", interval);
     }
 
     if (!state.bridge.finding && interval) {
-      console.log("* clearing interval", interval);
       clearInterval(interval);
       interval = null;
     }
@@ -51,7 +49,6 @@ export const FindBridge = ({ history }) => {
   };
 
   const onSubmit = values => {
-    console.log("* values", values);
     actions.findBridge({
       userFriendlyId: values.userFriendlyId
     });
@@ -63,6 +60,14 @@ export const FindBridge = ({ history }) => {
         <Fragment>
           <h1 className="FindBridge__Header">FIND BRIDGE</h1>
           <Spinner width={80} className="FindBridge__Spinner" />
+          {state.bridge.error && (
+            <div className="ErrorMessage">
+              {state.bridge.error}
+              <br />
+              <br />
+              Please check that bridge ID below is correct.
+            </div>
+          )}
           <p className="Text Text--center">
             Please wait until the connection is established with the bridge.
           </p>
@@ -102,7 +107,7 @@ export const FindBridge = ({ history }) => {
                 >
                   {({ input, meta }) => (
                     <div className="Input FindBridge__Input">
-                      <input {...input} placeholder="____-_____" />
+                      <input {...input} placeholder="____-_____" autoFocus />
                       {meta.error && meta.touched && (
                         <span className="Input-Error Input-Error--center">
                           {meta.error}

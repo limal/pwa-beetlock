@@ -3,12 +3,12 @@ import { Form, Field } from "react-final-form";
 import createFocusDecorator from "final-form-focus";
 import { useOvermind } from "../overmind/overmind";
 import { ROUTES } from "../routes/routes";
-import { required } from "common/forms/validators";
+import { composeValidators, password, required } from "common/forms/validators";
 import "../css/Auth.scss";
 
 const focusOnError = createFocusDecorator();
 
-export const Login = props => {
+export const SignUp = props => {
   const { state, actions } = useOvermind();
 
   const onSubmit = values => {
@@ -22,14 +22,16 @@ export const Login = props => {
   }, [state.authenticated]);
 
   return (
-    <div className="Login">
-      <h1 className="Login-Header">Login</h1>
+    <div className="SignUp">
+      <h1 className="SignUp-Header">SignUp</h1>
+      <p className="Text Text--center">
+        Please set up your master account for the lock.
+      </p>
       <Form
         onSubmit={onSubmit}
-        initialValues={{ username: "limal", password: "dupa8" }}
         decorators={[focusOnError]}
         render={({ handleSubmit, reset, submitting, pristine, values }) => (
-          <form className="Login-Form" onSubmit={handleSubmit}>
+          <form className="SignUp-Form" onSubmit={handleSubmit}>
             {state.login.errors && (
               <div className="Form-Errors">{state.login.errors.error}</div>
             )}
@@ -48,7 +50,10 @@ export const Login = props => {
                 </div>
               )}
             </Field>
-            <Field name="password" validate={required}>
+            <Field
+              name="password"
+              validate={composeValidators(required, password)}
+            >
               {({ input, meta }) => (
                 <div className="Input">
                   <input {...input} type="password" placeholder="Password" />
@@ -58,7 +63,7 @@ export const Login = props => {
                 </div>
               )}
             </Field>
-            <div className="Login-Buttons">
+            <div className="SignUp-Buttons">
               <button
                 className="Button"
                 type="submit"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { useOvermind } from "../overmind/overmind";
 import { Menu } from "./icons/Menu";
@@ -31,7 +31,7 @@ export const MainMenu = () => {
         <Menu className={open ? "MainMenu-Active" : ""} onClick={toggleOpen} />
         <div className={`MainMenu-List ${!open && "Hidden"}`}>
           {state.authenticated ? (
-            <React.Fragment>
+            <Fragment>
               <MenuItem>
                 <Link to={ROUTES.home} onClick={toggleOpen}>
                   Home
@@ -43,13 +43,20 @@ export const MainMenu = () => {
                 </Link>
               </MenuItem>
               <MenuItem handleClick={handleLogout}>Logout</MenuItem>
-            </React.Fragment>
+            </Fragment>
           ) : (
-            <MenuItem>
-              <Link to="/login" onClick={toggleOpen}>
-                Login
-              </Link>
-            </MenuItem>
+            <Fragment>
+              <MenuItem>
+                <Link to={ROUTES.login} onClick={toggleOpen}>
+                  Login
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link to={ROUTES.signUp} onClick={toggleOpen}>
+                  Sign up
+                </Link>
+              </MenuItem>
+            </Fragment>
           )}
         </div>
       </div>

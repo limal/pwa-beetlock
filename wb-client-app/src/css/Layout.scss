@@ -90,11 +90,13 @@ body {
 }
 
 .MainMenu-Item {
-  padding: 20px 40px;
   list-style: none;
 
   a {
+    display: block;
     color: $text-color;
+    padding: 20px 40px;
+    min-width: 100px;
     text-decoration: none;
   }
 }

@@ -2,13 +2,13 @@ import { Overmind } from "overmind";
 import { createHook } from "overmind-react";
 import axios from "axios";
 import to from "await-to-js";
-import { endpoints } from "../util/endpoints";
+import { endpoints, wifiEndpoints } from "../util/endpoints";
 import { BRIDGE_STEPS } from "../util/constants";
 
 // const SERVER_URL = "http://localhost:3001";
 // const SERVER_URL = "http://open.wb-lock.com:32100";
 const SERVER_URL = process.env.REACT_APP_WB_CLOUD_URL;
-const BRIDGE_UUID = "3eaff70b-b611-4bb0-8d4c-baffb56f9455";
+const STATUS_TIMEOUT = 2500;
 
 export const overmind = new Overmind({
   state: {
@@ -48,7 +48,7 @@ export const overmind = new Overmind({
     },
     connectWifi: async ({ accessToken, ipAddress, ssid, password }) => {
       let [err, response] = await to(
-        axios.post(endpoints.connectWifi(ipAddress), { ssid, password })
+        axios.post(wifiEndpoints.connectWifi(ipAddress), { ssid, password })
       );
 
       return err ? err.resopnse : response;
@@ -60,18 +60,21 @@ export const overmind = new Overmind({
 
       return err ? err.resopnse : response;
     },
-    getBridge: async ({ accessToken }) => {
+    getWifis: async ({ accessToken, ipAddress }) => {
+      console.log("* ip", ipAddress, wifiEndpoints.getWifis(ipAddress));
       let [err, response] = await to(
-        axios.post(endpoints.getBridge, { uuid: BRIDGE_UUID })
+        axios.get(wifiEndpoints.getWifis(ipAddress))
       );
 
-      return err ? err.resopnse : response;
+      return err ? err.response : response;
     },
-    getWifis: async ({ accessToken, ipAddress }) => {
-      console.log("* ip", ipAddress, endpoints.getWifis(ipAddress));
-      let [err, response] = await to(axios.get(endpoints.getWifis(ipAddress)));
+    getStatus: async ({ ipAddress }) => {
+      console.log("* ip", ipAddress);
+      let [err, response] = await to(
+        axios.get(endpoints.getStatus(ipAddress), { timeout: STATUS_TIMEOUT })
+      );
 
-      return err ? err.resopnse : response;
+      return err ? err.response : response;
     },
     login: async ({ username, password }) => {
       let response, err;
@@ -122,24 +125,19 @@ export const overmind = new Overmind({
       state.bridge.userFriendlyId = userFriendlyId;
       state.bridge.finding = true;
 
-      const response = await effects.findBridge({ userFriendlyId });
+      let response = await effects.findBridge({ userFriendlyId });
       if (response && response.status < 300) {
-        console.log("* response", response);
         if (response.data.status === "ok") {
-          state.bridge.finding = false;
-          state.bridge.ip = response.data.bridge.ip;
+          const ipAddress = response.data.bridge.ip;
+          // check if the bridge central API is working
+          response = await effects.getStatus({ ipAddress });
+          if (response.status === "ok2") {
+            state.bridge.finding = false;
+            state.bridge.ip = ipAddress;
+          } else {
+            state.bridge.error = `Found the bridge but cannot connect to it at "${ipAddress}".`;
+          }
         }
-      }
-    },
-    getBridge: async ({ state, effects }, { accessToken } = {}) => {
-      state.bridge.wifis = [];
-      const response = await effects.getBridge({ accessToken });
-      if (response && response.status < 300) {
-        state.bridge.step = BRIDGE_STEPS.passwordRequired;
-        state.bridge.ip = "localhost:3020"; //response.data.ip + ":3020";
-        state.bridge.ssid = response.data.ssid;
-      } else {
-        state.bridge.step = BRIDGE_STEPS.error;
       }
     },
     getWifis: async ({ state, effects }, { accessToken } = {}) => {
