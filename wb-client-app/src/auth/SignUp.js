@@ -17,7 +17,7 @@ export const SignUp = ({ history, ...props }) => {
 
   useEffect(() => {
     if (state.authenticated) {
-      props.history.push(ROUTES.locks);
+      history.push(ROUTES.locks);
     }
   }, [state.authenticated]);
 
@@ -32,8 +32,8 @@ export const SignUp = ({ history, ...props }) => {
         decorators={[focusOnError]}
         render={({ handleSubmit, reset, submitting, pristine, values }) => (
           <form className="SignUp-Form" onSubmit={handleSubmit}>
-            {state.login.errors && (
-              <div className="Form-Errors">{state.login.errors.error}</div>
+            {state.signup.errors && (
+              <div className="Form-Errors">{state.signup.errors.error}</div>
             )}
             <Field name="username" validate={required}>
               {({ input, meta }) => (

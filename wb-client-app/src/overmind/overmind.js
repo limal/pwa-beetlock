@@ -4,11 +4,38 @@ import axios from "axios";
 import to from "await-to-js";
 import { endpoints, wifiEndpoints } from "../util/endpoints";
 import { BRIDGE_STEPS } from "../util/constants";
+import { NavigationUnfoldLess } from "material-ui/svg-icons";
 
 // const SERVER_URL = "http://localhost:3001";
 // const SERVER_URL = "http://open.wb-lock.com:32100";
 const SERVER_URL = process.env.REACT_APP_WB_CLOUD_URL;
 const STATUS_TIMEOUT = 2500;
+
+const login = async ({ state, effects }, { username, password }) => {
+  state.login.loading = true;
+  const response = await effects.login({
+    ipAddress: state.bridge.ip,
+    username,
+    password
+  });
+
+  if (response && response.status < 300) {
+    state.authenticated = true;
+    state.accessToken = response.data.token;
+    state.refreshToken = response.data.refresh_token;
+    state.login.errors = null;
+    // TODO remove local storage and store server-side session
+    localStorage.setItem("accessToken", state.accessToken);
+    localStorage.setItem("refreshToken", state.refreshToken);
+  } else {
+    state.authenticated = false;
+    state.accessToken = null;
+    state.refreshToken = null;
+    state.login.errors = response.data;
+  }
+
+  state.login.loading = false;
+};
 
 export const overmind = new Overmind({
   state: {
@@ -20,10 +47,14 @@ export const overmind = new Overmind({
       errors: null,
       loading: false
     },
+    signup: {
+      errors: null
+    },
     bridge: {
       ip: null,
       userFriendlyId: null,
       finding: false,
+      occupied: null,
       step: BRIDGE_STEPS.none,
       ssid: null,
       wifis: [],
@@ -35,8 +66,6 @@ export const overmind = new Overmind({
   effects: {
     authenticate: async ({ accessToken, ipAddress }) => {
       let response, err;
-
-      console.log("* effects accessToken", accessToken);
 
       [err, response] = await to(
         axios.get(endpoints.userInfo(ipAddress), {
@@ -56,6 +85,13 @@ export const overmind = new Overmind({
     findBridge: async ({ accessToken, userFriendlyId }) => {
       let [err, response] = await to(
         axios.post(endpoints.findBridge, { userFriendlyId })
+      );
+
+      return err ? err.resopnse : response;
+    },
+    getOccupied: async ({ ipAddress }) => {
+      let [err, response] = await to(
+        axios.get(endpoints.getOccupied(ipAddress))
       );
 
       return err ? err.resopnse : response;
@@ -112,9 +148,11 @@ export const overmind = new Overmind({
       });
       if (response && response.status < 300) {
         state.authenticated = true;
+      } else {
+        state.accessToken = false;
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
       }
-
-      console.log("* state", state.authenticated);
 
       state.bootstrapped = true;
     },
@@ -164,9 +202,15 @@ export const overmind = new Overmind({
     },
     getStatus: async ({ state, effects }, { ipAddress }) => {
       const response = await effects.getStatus({ ipAddress });
-      if (response.data.status === "ok") {
+      if (response && response.data.status === "ok") {
         state.bridge.ip = ipAddress;
-        console.log("* ip set");
+      }
+    },
+    getOccupied: async ({ state, effects }, { ipAddress }) => {
+      const response = await effects.getOccupied({ ipAddress });
+      state.bridge.occupied = null;
+      if (response && response.data.status === "ok") {
+        state.bridge.occupied = response.data.occupied === "true";
       }
     },
     getWifis: async ({ state, effects }, { accessToken } = {}) => {
@@ -181,31 +225,7 @@ export const overmind = new Overmind({
         state.bridge.wifis = response.data;
       }
     },
-    login: async ({ state, effects }, { username, password }) => {
-      state.login.loading = true;
-      const response = await effects.login({
-        ipAddress: state.bridge.ip,
-        username,
-        password
-      });
-
-      if (response && response.status < 300) {
-        state.authenticated = true;
-        state.accessToken = response.data.token;
-        state.refreshToken = response.data.refresh_token;
-        state.login.errors = null;
-        // TODO remove local storage and store server-side session
-        localStorage.setItem("accessToken", state.accessToken);
-        localStorage.setItem("refreshToken", state.refreshToken);
-      } else {
-        state.authenticated = false;
-        state.accessToken = null;
-        state.refreshToken = null;
-        state.login.errors = response.data;
-      }
-
-      state.login.loading = false;
-    },
+    login: login,
     logout: ({ state }) => {
       state.authenticated = false;
       state.accessToken = false;
@@ -219,13 +239,17 @@ export const overmind = new Overmind({
     register: async ({ state, effects }, { username, password }) => {
       console.log("* username", username, password);
 
-      const response = effects.register({
+      const response = await effects.register({
         ipAddress: state.bridge.ip,
         username,
         password
       });
 
-      console.log("* response", response);
+      if (response.status === 201) {
+        return login({ state, effects }, { username, password });
+      } else {
+        state.signup.errors = response.data;
+      }
     }
   }
 });

@@ -74,10 +74,12 @@ export const App = () => {
 
       if (ipAddress) {
         actions.getStatus({ ipAddress });
+        actions.getOccupied({ ipAddress });
       }
     } else {
       const accessToken = localStorage.getItem("accessToken");
       if (state.bridge.ip !== null && !isEmpty(accessToken)) {
+        console.log("* auth'");
         actions.authenticate({ accessToken });
       }
     }

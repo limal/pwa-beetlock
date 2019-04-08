@@ -15,8 +15,12 @@ export const Home = ({ history, ...props }) => {
     history.push(ROUTES.locks);
   }
 
-  if (state.bridge.ip) {
-    history.push(ROUTES.login);
+  if (state.bridge.ip && state.bridge.occupied !== null) {
+    if (state.bridge.occupied) {
+      history.push(ROUTES.login);
+    } else {
+      history.push(ROUTES.signUp);
+    }
   }
   return <Onboarding history={history} {...props} />;
 };
