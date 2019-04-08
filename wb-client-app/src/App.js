@@ -17,6 +17,7 @@ import { Angles } from "./Angles";
 import { Layout } from "./common/Layout";
 import { Home } from "./common/Home";
 import { Login } from "./auth/Login";
+import { BridgeWifi } from "./locks/BridgeWifi";
 import { Locks } from "./locks/Locks";
 import { HotSpot } from "./common/HotSpot";
 import { ROUTES } from "./routes/routes";
@@ -79,7 +80,6 @@ export const App = () => {
     } else {
       const accessToken = localStorage.getItem("accessToken");
       if (state.bridge.ip !== null && !isEmpty(accessToken)) {
-        console.log("* auth'");
         actions.authenticate({ accessToken });
       }
     }
@@ -95,6 +95,11 @@ export const App = () => {
             <Route path={ROUTES.findBridge} component={FindBridge} />
             <Route path={ROUTES.foundBridge} component={FoundBridge} />
             <PrivateRoute path={ROUTES.locks} component={Locks} exact />
+            <PrivateRoute
+              path={ROUTES.bridgeWifi}
+              component={BridgeWifi}
+              exact
+            />
             <Route path={ROUTES.login} component={Login} />
             <Route path={ROUTES.signUp} component={SignUp} />
           </Switch>

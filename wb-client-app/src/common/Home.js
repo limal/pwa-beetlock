@@ -22,5 +22,10 @@ export const Home = ({ history, ...props }) => {
       history.push(ROUTES.signUp);
     }
   }
+
+  if (state.lock.connected) {
+    history.push(ROUTES.locks);
+  }
+
   return <Onboarding history={history} {...props} />;
 };

@@ -3,7 +3,7 @@ import { useOvermind } from "../overmind/overmind";
 import { Form, Field } from "react-final-form";
 import createFocusDecorator from "final-form-focus";
 import { required } from "../common/forms/validators";
-import "../css/Locks.scss";
+import "../css/BridgeWifi.scss";
 
 const focusOnError = createFocusDecorator();
 

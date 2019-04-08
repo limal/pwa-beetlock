@@ -14,7 +14,7 @@ body {
   display: flex;
   flex-direction: column;
   max-width: $desktop-width;
-  margin: 20px auto;
+  margin: 0 auto;
 
   @include tablet {
     margin-top: 100px;
@@ -28,7 +28,10 @@ body {
 .Layout-Header {
   display: flex;
   justify-content: space-between;
+  background: linear-gradient(0deg, $primary-color, rgba(0, 0, 0, 0.5));
   @include padding;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .Text {

@@ -1,66 +1,34 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useOvermind } from "../overmind/overmind";
 import { WifiSetup } from "./WifiSetup";
 import { BRIDGE_STEPS } from "../util/constants";
 import { Spinner } from "../common/Spinner";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { LockIcon } from "../common/icons/LockIcon";
 import "../css/Locks.scss";
-
-const CHECK_WIFI_INTERVAL = 5000;
-
-dayjs.extend(relativeTime);
 
 export const Locks = () => {
   const { state, actions } = useOvermind();
-  let interval = null;
-
-  useEffect(() => {
-    if (state.bridge.step === BRIDGE_STEPS.confirmingNewWifi && !interval) {
-      interval = setInterval(() => {
-        actions.checkWifi();
-      }, CHECK_WIFI_INTERVAL);
-    }
-  }, [state.bridge.step]);
-
-  const getBridge = e => {
-    e.preventDefault();
-    actions.getBridge();
-  };
 
   return (
     <div className="Locks">
-      {state.bridge.step === BRIDGE_STEPS.none && (
-        <div>
-          <p>Please change your to your bridge first</p>
-          <button
-            className="Button Button--padded"
-            type="submit"
-            onClick={getBridge}
-            disabled={state.bridge.loading}
-          >
-            Find bridge
-          </button>
-        </div>
-      )}
-      {state.bridge.step === BRIDGE_STEPS.passwordRequired && <WifiSetup />}
-      {state.bridge.step === BRIDGE_STEPS.confirmingNewWifi && (
-        <div>
-          <h1 className="Locks__Header">
-            Waiting for bridge to connect to Internet...
-          </h1>
-          <Spinner width={80} className="Locks__Spinner" />
-          <h2 className="Locks__Subheader">Bridge last contact:</h2>
-          <dl className="Details">
-            <dt>SSID</dt>
-            <dd>{state.bridge.wifiReported}</dd>
-            <dt>Updated at</dt>
-            <dd>
-              {state.bridge.updatedAt &&
-                dayjs(state.bridge.updatedAt).fromNow()}
-            </dd>
-          </dl>
-        </div>
+      {state.lock.connected ? (
+        <h1 className="Locks__Header">Connected</h1>
+      ) : (
+        <Fragment>
+          <h1 className="Locks__Header">Lock not connected to bridge</h1>
+          <LockIcon
+            width="200"
+            height="200"
+            className="Locks__Lock Locks__Lock--disconnected"
+          />
+          <div className="Locks__Buttons">
+            <button className="Button" type="submit">
+              SETUP LOCK
+            </button>
+          </div>
+        </Fragment>
       )}
     </div>
   );

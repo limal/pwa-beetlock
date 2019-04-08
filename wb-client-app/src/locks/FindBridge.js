@@ -7,8 +7,7 @@ import { Spinner } from "../common/Spinner";
 import { required } from "../common/forms/validators";
 import { GoBack } from "../common/GoBack";
 import { ROUTES } from "../routes/routes";
-import "../css/Locks.scss";
-import { action } from "overmind";
+import "../css/BridgeWifi.scss";
 
 const focusOnError = createFocusDecorator();
 

@@ -6,16 +6,16 @@ import { Success } from "../common/icons/Success";
 import { required } from "../common/forms/validators";
 import { GoBack } from "../common/GoBack";
 import { ROUTES } from "../routes/routes";
-import "../css/Locks.scss";
+import "../css/BridgeWifi.scss";
 
 const focusOnError = createFocusDecorator();
 
 export const FoundBridge = ({ history }) => {
   const { state, actions } = useOvermind();
 
-  const onSubmit = values => {
-    console.log("* values", values);
-  };
+  useEffect(() => {
+    actions.getOccupied({ ipAddress: state.bridge.ip });
+  }, [state.bridge.ip]);
 
   return (
     <div className="FoundBridge">
@@ -29,7 +29,11 @@ export const FoundBridge = ({ history }) => {
           className="Button"
           type="submit"
           value="NEXT"
-          onClick={e => history.push(ROUTES.signUp)}
+          onClick={e =>
+            state.bridge.occupied
+              ? history.push(ROUTES.login)
+              : history.push(ROUTES.signUp)
+          }
         />
       </Fragment>
     </div>

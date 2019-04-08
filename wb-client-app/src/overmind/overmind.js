@@ -4,11 +4,7 @@ import axios from "axios";
 import to from "await-to-js";
 import { endpoints, wifiEndpoints } from "../util/endpoints";
 import { BRIDGE_STEPS } from "../util/constants";
-import { NavigationUnfoldLess } from "material-ui/svg-icons";
 
-// const SERVER_URL = "http://localhost:3001";
-// const SERVER_URL = "http://open.wb-lock.com:32100";
-const SERVER_URL = process.env.REACT_APP_WB_CLOUD_URL;
 const STATUS_TIMEOUT = 2500;
 
 const login = async ({ state, effects }, { username, password }) => {
@@ -61,6 +57,9 @@ export const overmind = new Overmind({
       wifiReported: null,
       wifiSelected: null,
       wifiPassword: null
+    },
+    lock: {
+      connected: false
     }
   },
   effects: {

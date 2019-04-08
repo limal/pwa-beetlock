@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
   return (
     <div className="Layout">
       <div className="Layout-Header">
-        <Back className="Flip-H" />
+        {/* <Back className="Flip-H" /> */}
         <Logo />
         <MainMenu />
       </div>
