@@ -23,7 +23,7 @@ export const Home = ({ history, ...props }) => {
     }
   }
 
-  if (state.lock.connected) {
+  if (state.bridge.ip && state.lock.connected) {
     history.push(ROUTES.locks);
   }
 

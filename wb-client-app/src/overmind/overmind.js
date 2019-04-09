@@ -109,7 +109,7 @@ export const overmind = new Overmind({
         axios.get(endpoints.getStatus(ipAddress), { timeout: STATUS_TIMEOUT })
       );
 
-      return err ? err.response : response;
+      return [err, response];
     },
     login: async ({ ipAddress, username, password }) => {
       let response, err;
@@ -181,14 +181,15 @@ export const overmind = new Overmind({
       state.bridge.userFriendlyId = userFriendlyId;
       state.bridge.finding = true;
 
+      let err;
       let response = await effects.findBridge({ userFriendlyId });
       if (response && response.status < 300) {
         if (response.data.status === "ok") {
           const ipAddress = response.data.bridge.ip;
           state.bridge.error = null;
           // check if the bridge central API is working
-          response = await effects.getStatus({ ipAddress });
-          if (response.data.status === "ok") {
+          [err, response] = await effects.getStatus({ ipAddress });
+          if (!err && response.data.status === "ok") {
             state.bridge.finding = false;
             state.bridge.ip = ipAddress;
 
@@ -200,9 +201,11 @@ export const overmind = new Overmind({
       }
     },
     getStatus: async ({ state, effects }, { ipAddress }) => {
-      const response = await effects.getStatus({ ipAddress });
-      if (response && response.data.status === "ok") {
+      let [err, response] = await effects.getStatus({ ipAddress });
+      if (!err && response && response.data.status === "ok") {
         state.bridge.ip = ipAddress;
+      } else {
+        console.log("* whoops");
       }
     },
     getOccupied: async ({ state, effects }, { ipAddress }) => {
