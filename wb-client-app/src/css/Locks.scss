@@ -20,3 +20,14 @@
 .Locks__Lock--disconnected {
   color: $third-color;
 }
+
+.LockControl {
+  overflow: hidden;
+}
+
+.LockControl__Icon {
+  position: relative;
+  display: block;
+  margin: 40px auto;
+  color: $third-color;
+}

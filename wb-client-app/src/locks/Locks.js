@@ -6,6 +6,7 @@ import { Spinner } from "../common/Spinner";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { LockIcon } from "../common/icons/LockIcon";
+import { LockControl } from "./LockControl";
 import "../css/Locks.scss";
 
 export const Locks = () => {
@@ -14,7 +15,10 @@ export const Locks = () => {
   return (
     <div className="Locks">
       {state.lock.connected ? (
-        <h1 className="Locks__Header">Connected</h1>
+        <Fragment>
+          <h1 className="Locks__Header">Connected</h1>
+          <LockControl />
+        </Fragment>
       ) : (
         <Fragment>
           <h1 className="Locks__Header">Lock not connected to bridge</h1>

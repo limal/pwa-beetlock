@@ -59,7 +59,7 @@ export const overmind = new Overmind({
       wifiPassword: null
     },
     lock: {
-      connected: false
+      connected: true // TODO set to false
     }
   },
   effects: {
