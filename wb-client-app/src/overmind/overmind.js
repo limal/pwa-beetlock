@@ -75,6 +75,15 @@ export const overmind = new Overmind({
 
       return err ? err.response : response;
     },
+    closeLock: async ({ ipAddress }) => {
+      let response, err;
+
+      [err, response] = await to(
+        axios.post(endpoints.sendToLock(ipAddress), { message: "CLOSE" })
+      );
+
+      return [err, response];
+    },
     connectWifi: async ({ accessToken, ipAddress, ssid, password }) => {
       let [err, response] = await to(
         axios.post(wifiEndpoints.connectWifi(ipAddress), { ssid, password })
@@ -175,6 +184,23 @@ export const overmind = new Overmind({
         state.bridge.updatedAt = response.data.updated_at;
         state.bridge.wifiReported = response.data.ssid;
       }
+    },
+    closeLock: async ({ state, effects }) => {
+      state.lock.readMessage = "";
+      state.lock.error = null;
+      let [err, response] = await effects.closeLock({
+        ipAddress: state.bridge.ip
+      });
+
+      if (!err) {
+        if (response && response.data.status === "ok") {
+          state.lock.readMessage = response.data.read;
+        } else {
+          state.lock.error = response.data.error;
+        }
+      }
+
+      console.log("err, response", err, response);
     },
     connectWifi: async ({ state, effects }) => {
       state.bridge.loading = true;

@@ -16,6 +16,7 @@ export const LockControl = ({ ...props }) => {
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => {
+      actions.closeLock();
       reset();
     },
     onSwipedRight: () => {
