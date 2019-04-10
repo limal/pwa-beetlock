@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSwipeable } from "react-swipeable";
+import { useOvermind } from "../overmind/overmind";
 import BezierEasing from "bezier-easing";
 import { LockIcon } from "../common/icons/LockIcon";
 
@@ -7,6 +8,7 @@ const easing = BezierEasing(0.36, 0, 0.13, 1.01);
 
 export const LockControl = ({ ...props }) => {
   const [deltaX, setDeltaX] = useState(0);
+  const { state, actions } = useOvermind();
 
   const reset = () => {
     setDeltaX(0);
@@ -17,6 +19,8 @@ export const LockControl = ({ ...props }) => {
       reset();
     },
     onSwipedRight: () => {
+      console.log("actions");
+      actions.openLock();
       reset();
     },
     onSwiping: e => {
@@ -35,13 +39,23 @@ export const LockControl = ({ ...props }) => {
 
   return (
     <div className="LockControl" {...swipeHandlers}>
-      <div>deltaX: {deltaX}</div>
       <LockIcon
         width="200"
         height="200"
         className="LockControl__Icon"
         style={{ left: calculateDistance(deltaX) }}
       />
+      <pre>{state.lock.readMessage}</pre>
+      {state.lock.error && (
+        <div className="ErrorMessage">
+          Couldn't open/close the lock due to below error:
+          <br />
+          <br />"{state.lock.error}""
+          <br />
+          <br />
+          Please check that lock and bridge are powered on and try again.
+        </div>
+      )}
     </div>
   );
 };

@@ -59,7 +59,8 @@ export const overmind = new Overmind({
       wifiPassword: null
     },
     lock: {
-      connected: true // TODO set to false
+      connected: true, // TODO set to false
+      readMessage: null
     }
   },
   effects: {
@@ -122,6 +123,16 @@ export const overmind = new Overmind({
       );
 
       return err ? err.response : response;
+    },
+    openLock: async ({ ipAddress }) => {
+      let response, err;
+
+      // [err, response] = await to(axios.get(endpoints.openLock(ipAddress)));
+      [err, response] = await to(
+        axios.post(endpoints.sendToLock(ipAddress), { message: "OPEN" })
+      );
+
+      return [err, response];
     },
     register: async ({ ipAddress, username, password }) => {
       let response, err;
@@ -233,6 +244,23 @@ export const overmind = new Overmind({
       state.accessToken = false;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+    },
+    openLock: async ({ state, effects }) => {
+      state.lock.readMessage = "";
+      state.lock.error = null;
+      let [err, response] = await effects.openLock({
+        ipAddress: state.bridge.ip
+      });
+
+      if (!err) {
+        if (response && response.data.status === "ok") {
+          state.lock.readMessage = response.data.read;
+        } else {
+          state.lock.error = response.data.error;
+        }
+      }
+
+      console.log("err, response", err, response);
     },
     setWifiSelected: ({ state }, { wifiSelected, wifiPassword }) => {
       state.bridge.wifiSelected = wifiSelected;
