@@ -16,7 +16,7 @@ export const Locks = () => {
     <div className="Locks">
       {state.lock.connected ? (
         <Fragment>
-          <h1 className="Locks__Header">Connected</h1>
+          {/* <h1 className="Locks__Header">Connected</h1> */}
           <LockControl />
         </Fragment>
       ) : (

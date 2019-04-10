@@ -28,6 +28,15 @@
 .LockControl__Icon {
   position: relative;
   display: block;
-  margin: 40px auto;
+  margin: 0px auto;
   color: $third-color;
+  transition: 100ms linear;
+}
+
+.LockControl__Icon--opened {
+  color: $opened-color;
+}
+
+.LockControl__Icon--closed {
+  color: $closed-color;
 }
