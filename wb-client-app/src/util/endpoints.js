@@ -12,7 +12,7 @@ export const endpoints = {
   findBridge: `${WB_CLOUD_URL}/get-bridge`,
   getOccupied: ipAddress => centralHost(ipAddress, "/user/occupied"),
   getStatus: ipAddress => centralHost(ipAddress, "/status"),
-  getFromLock: ipAddress => centralHost(ipAddress, "/com/read"),
+  readFromLock: ipAddress => centralHost(ipAddress, "/com/read"),
   register: ipAddress => centralHost(ipAddress, "/user"),
   userInfo: ipAddress => centralHost(ipAddress, "/user/info"),
   sendToLock: ipAddress => centralHost(ipAddress, "/com/write")

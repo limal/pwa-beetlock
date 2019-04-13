@@ -85,6 +85,19 @@ body {
   margin-right: 10px;
 }
 
+.Header {
+  @include H1;
+}
+
+.PrivateRoute__Header {
+  @include H1;
+  margin-bottom: 40px;
+}
+
+.Padding {
+  @include padding;
+}
+
 .MainMenu-List {
   position: absolute;
   background: $primary-color;

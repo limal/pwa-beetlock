@@ -136,10 +136,16 @@ export const overmind = new Overmind({
     openLock: async ({ ipAddress }) => {
       let response, err;
 
-      // [err, response] = await to(axios.get(endpoints.openLock(ipAddress)));
       [err, response] = await to(
         axios.post(endpoints.sendToLock(ipAddress), { message: "OPEN" })
       );
+
+      return [err, response];
+    },
+    readFromLock: async ({ ipAddress }) => {
+      let response, err;
+
+      [err, response] = await to(axios.get(endpoints.readFromLock(ipAddress)));
 
       return [err, response];
     },
@@ -275,6 +281,23 @@ export const overmind = new Overmind({
       state.lock.readMessage = "";
       state.lock.error = null;
       let [err, response] = await effects.openLock({
+        ipAddress: state.bridge.ip
+      });
+
+      if (!err) {
+        if (response && response.data.status === "ok") {
+          state.lock.readMessage = response.data.read;
+        } else {
+          state.lock.error = response.data.error;
+        }
+      }
+
+      console.log("err, response", err, response);
+    },
+    readFromLock: async ({ state, effects }) => {
+      state.lock.readMessage = "";
+      state.lock.error = null;
+      let [err, response] = await effects.readFromLock({
         ipAddress: state.bridge.ip
       });
 

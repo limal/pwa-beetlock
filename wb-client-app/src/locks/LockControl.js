@@ -6,7 +6,7 @@ import { useOvermind } from "../overmind/overmind";
 import BezierEasing from "bezier-easing";
 import { LockIcon } from "../common/icons/LockIcon";
 
-const TESTING = true;
+const TESTING = false;
 const easing = BezierEasing(0.36, 0, 0.13, 1.01);
 
 const defaultOptions = {
@@ -33,7 +33,7 @@ export const LockControl = ({ ...props }) => {
     {
       eventName: "enterFrame",
       callback: anim => {
-        console.log("irection === 1", direction);
+        console.log("direction === 1", direction);
         if (direction === 1 && anim.currentTime > 50) {
           setPaused(true);
         }

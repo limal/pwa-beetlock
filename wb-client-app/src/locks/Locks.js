@@ -12,11 +12,17 @@ import "../css/Locks.scss";
 export const Locks = () => {
   const { state, actions } = useOvermind();
 
+  const onClick = e => {
+    console.log("* onClick Read)");
+    actions.readFromLock();
+  };
+
   return (
     <div className="Locks">
       {state.lock.connected ? (
         <Fragment>
           {/* <h1 className="Locks__Header">Connected</h1> */}
+          <span onClick={onClick}>READ</span>
           <LockControl />
         </Fragment>
       ) : (
