@@ -17,12 +17,34 @@ export const Locks = () => {
     actions.readFromLock();
   };
 
+  const onSend = command => e => {
+    console.log("* onSend", command);
+    actions.sendToLock({ message: command });
+  };
+
   return (
     <div className="Locks">
       {state.lock.connected ? (
         <Fragment>
           {/* <h1 className="Locks__Header">Connected</h1> */}
-          <span onClick={onClick}>READ</span>
+          <span
+            style={{ display: "block", marginBottom: "40px" }}
+            onClick={onClick}
+          >
+            READ
+          </span>
+          <span
+            style={{ display: "block", marginBottom: "40px" }}
+            onClick={onSend("BATTSTAT")}
+          >
+            BATTSTAT
+          </span>
+          <span
+            style={{ display: "block", marginBottom: "40px" }}
+            onClick={onSend("GETBATT")}
+          >
+            GETBATT
+          </span>
           <LockControl />
         </Fragment>
       ) : (
