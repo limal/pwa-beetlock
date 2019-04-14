@@ -62,7 +62,7 @@ export const overmind = new Overmind({
       connected: true, // TODO set to false
       readMessage: null,
       battery: {
-        voltage: 0
+        voltage: 419
       }
     }
   },
@@ -375,6 +375,9 @@ export const overmind = new Overmind({
       }
 
       console.log("err, response", err, response);
+    },
+    setBattery: ({ state }, { voltage }) => {
+      state.lock.battery.voltage = voltage;
     }
   }
 });

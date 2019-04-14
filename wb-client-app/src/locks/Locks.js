@@ -3,13 +3,12 @@ import { useOvermind } from "../overmind/overmind";
 import { LockIcon } from "../common/icons/LockIcon";
 import { LockControl } from "./LockControl";
 import "../css/Locks.scss";
-import { action } from "overmind";
 
 export const Locks = () => {
   const { state, actions } = useOvermind();
 
   useEffect(() => {
-    actions.getBattery();
+    // actions.getBattery();
   }, [state.lock.connected]);
 
   const onClick = e => {
