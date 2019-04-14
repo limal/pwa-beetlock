@@ -15,6 +15,7 @@ body {
   flex-direction: column;
   max-width: $desktop-width;
   margin: 0 auto;
+  overflow: hidden;
 
   @include tablet {
     margin-top: 100px;
@@ -67,6 +68,11 @@ body {
   height: 100vh;
   background: rgba(0, 0, 0, 0.2);
   z-index: 0;
+}
+
+.MainMenu {
+  overflow: hidden;
+  max-width: 300px;
 }
 
 .MainMenu-IconContainer {

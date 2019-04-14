@@ -8,7 +8,7 @@ export const Locks = () => {
   const { state, actions } = useOvermind();
 
   useEffect(() => {
-    // actions.getBattery();
+    actions.getBattery();
   }, [state.lock.connected]);
 
   const onClick = e => {
@@ -21,12 +21,12 @@ export const Locks = () => {
       {state.lock.connected ? (
         <Fragment>
           {/* <h1 className="Locks__Header">Connected</h1> */}
-          <span
+          {/* <span
             style={{ display: "block", marginBottom: "40px" }}
             onClick={onClick}
           >
             READ
-          </span>
+          </span> */}
           <LockControl />
         </Fragment>
       ) : (

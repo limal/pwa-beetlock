@@ -25,13 +25,13 @@ const Batteries = {
 export const BatteryIndicator = () => {
   const { state, actions } = useOvermind();
 
-  useEffect(() => {
-    actions.getBattery();
-    setInterval(() => {
-      actions.setBattery({ voltage });
-      voltage--;
-    }, 100);
-  }, [state.lock.connected]);
+  //   useEffect(() => {
+  //     actions.getBattery();
+  //     setInterval(() => {
+  //       actions.setBattery({ voltage });
+  //       voltage--;
+  //     }, 100);
+  //   }, [state.lock.connected]);
 
   console.log("* voltage", voltage);
 

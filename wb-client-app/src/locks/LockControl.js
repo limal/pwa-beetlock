@@ -6,7 +6,7 @@ import { useOvermind } from "../overmind/overmind";
 import BezierEasing from "bezier-easing";
 import { LockIcon } from "../common/icons/LockIcon";
 
-const TESTING = false;
+const TESTING = true;
 const easing = BezierEasing(0.36, 0, 0.13, 1.01);
 
 const defaultOptions = {
