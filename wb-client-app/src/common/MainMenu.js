@@ -3,6 +3,13 @@ import { Link } from "react-router-dom";
 import { useOvermind } from "../overmind/overmind";
 import { Menu } from "./icons/Menu";
 import { Key } from "./icons/Key";
+import {
+  Battery04,
+  Battery14,
+  Battery24,
+  Battery34,
+  Battery44
+} from "./icons/Battery";
 import { Overlay } from "./Overlay";
 import { ROUTES } from "../routes/routes";
 
@@ -30,6 +37,8 @@ export const MainMenu = () => {
       <Overlay open={open} handleClick={toggleOpen} />
       <div className={`MainMenu-IconContainer`}>
         {state.authenticated && <Key className="Key" />}
+        <Battery24 />
+        {`${state.lock.battery.voltage / 100.0} V`}
         <Menu className={open ? "MainMenu-Active" : ""} onClick={toggleOpen} />
         <div className={`MainMenu-List ${!open && "Hidden"}`}>
           {state.authenticated ? (

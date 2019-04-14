@@ -60,7 +60,10 @@ export const overmind = new Overmind({
     },
     lock: {
       connected: true, // TODO set to false
-      readMessage: null
+      readMessage: null,
+      battery: {
+        voltage: 0
+      }
     }
   },
   effects: {
@@ -97,6 +100,13 @@ export const overmind = new Overmind({
       );
 
       return err ? err.resopnse : response;
+    },
+    getBattery: async ({ ipAddress }) => {
+      let [err, response] = await to(
+        axios.get(endpoints.getBattery(ipAddress))
+      );
+
+      return [err, response];
     },
     getOccupied: async ({ ipAddress }) => {
       let [err, response] = await to(
@@ -250,6 +260,15 @@ export const overmind = new Overmind({
             state.bridge.error = `Found the bridge but cannot connect to it at "${ipAddress}".`;
           }
         }
+      }
+    },
+    getBattery: async ({ state, effects }) => {
+      let [err, response] = await effects.getBattery({
+        ipAddress: state.bridge.ip
+      });
+      if (!err && response && response.data.status === "ok") {
+        console.log("* response.data", response.data);
+        state.lock.battery.voltage = response.data.battery.voltage;
       }
     },
     getStatus: async ({ state, effects }, { ipAddress }) => {

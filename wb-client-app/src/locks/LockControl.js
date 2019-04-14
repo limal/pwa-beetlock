@@ -75,7 +75,7 @@ export const LockControl = ({ ...props }) => {
   return (
     <div className="LockControl" {...swipeHandlers}>
       <h1 className="Locks__Header">{opened ? "OPENED" : "CLOSED"}</h1>
-      <Lottie
+      {/* <Lottie
         options={defaultOptions}
         height={160}
         width={320}
@@ -84,7 +84,7 @@ export const LockControl = ({ ...props }) => {
         speed={3}
         eventListeners={eventListeners}
         direction={direction}
-      />
+      /> */}
       <LockIcon
         width="200"
         height="200"

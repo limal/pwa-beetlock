@@ -1,25 +1,20 @@
 import React, { Fragment, useEffect } from "react";
 import { useOvermind } from "../overmind/overmind";
-import { WifiSetup } from "./WifiSetup";
-import { BRIDGE_STEPS } from "../util/constants";
-import { Spinner } from "../common/Spinner";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import { LockIcon } from "../common/icons/LockIcon";
 import { LockControl } from "./LockControl";
 import "../css/Locks.scss";
+import { action } from "overmind";
 
 export const Locks = () => {
   const { state, actions } = useOvermind();
 
+  useEffect(() => {
+    actions.getBattery();
+  }, [state.lock.connected]);
+
   const onClick = e => {
     console.log("* onClick Read)");
     actions.readFromLock();
-  };
-
-  const onSend = command => e => {
-    console.log("* onSend", command);
-    actions.sendToLock({ message: command });
   };
 
   return (
@@ -32,18 +27,6 @@ export const Locks = () => {
             onClick={onClick}
           >
             READ
-          </span>
-          <span
-            style={{ display: "block", marginBottom: "40px" }}
-            onClick={onSend("BATTSTAT")}
-          >
-            BATTSTAT
-          </span>
-          <span
-            style={{ display: "block", marginBottom: "40px" }}
-            onClick={onSend("GETBATT")}
-          >
-            GETBATT
           </span>
           <LockControl />
         </Fragment>
