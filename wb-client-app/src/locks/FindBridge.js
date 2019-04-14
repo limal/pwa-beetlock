@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useOvermind } from "../overmind/overmind";
 import { Form, Field } from "react-final-form";
 import formatStringByPattern from "format-string-by-pattern";
@@ -8,6 +8,7 @@ import { required } from "../common/forms/validators";
 import { GoBack } from "../common/GoBack";
 import { ROUTES } from "../routes/routes";
 import "../css/BridgeWifi.scss";
+import { action } from "overmind";
 
 const focusOnError = createFocusDecorator();
 
@@ -23,6 +24,8 @@ let interval = null;
 
 export const FindBridge = ({ history }) => {
   const { state, actions } = useOvermind();
+
+  const [showIpField, setShowIpField] = useState(false);
 
   useEffect(() => {
     if (state.bridge.ip && state.bridge.ip.length > 0) {
@@ -47,10 +50,19 @@ export const FindBridge = ({ history }) => {
     actions.cancelFindingBridge();
   };
 
+  const toggleIpField = e => {
+    setShowIpField(!showIpField);
+  };
+
   const onSubmit = values => {
-    actions.findBridge({
-      userFriendlyId: values.userFriendlyId
-    });
+    console.log("* values", values);
+    if (values.manualIp && values.manualIp.length) {
+      actions.setManualBridge({ ipAddress: values.manualIp });
+    } else {
+      actions.findBridge({
+        userFriendlyId: values.userFriendlyId
+      });
+    }
   };
 
   return (
@@ -99,22 +111,49 @@ export const FindBridge = ({ history }) => {
             decorators={[focusOnError]}
             render={({ handleSubmit }) => (
               <form className="FindBridge__Form" onSubmit={handleSubmit}>
-                <Field
-                  name="userFriendlyId"
-                  validate={required}
-                  parse={parseNumbersOnly}
+                {!showIpField && (
+                  <Field
+                    name="userFriendlyId"
+                    validate={required}
+                    parse={parseNumbersOnly}
+                  >
+                    {({ input, meta }) => (
+                      <div className="Input FindBridge__Input">
+                        <input {...input} placeholder="____-_____" autoFocus />
+                        {meta.error && meta.touched && (
+                          <span className="Input-Error Input-Error--center">
+                            {meta.error}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </Field>
+                )}
+                <p
+                  className="Text Text--center CursorPointer"
+                  onClick={toggleIpField}
                 >
-                  {({ input, meta }) => (
-                    <div className="Input FindBridge__Input">
-                      <input {...input} placeholder="____-_____" autoFocus />
-                      {meta.error && meta.touched && (
-                        <span className="Input-Error Input-Error--center">
-                          {meta.error}
-                        </span>
-                      )}
-                    </div>
+                  {!showIpField ? (
+                    <span>
+                      or <span className="Underlined">enter</span> the IP
+                      address manually
+                    </span>
+                  ) : (
+                    <span>
+                      <span className="Underlined">Cancel</span> manually
+                      entering IP address
+                    </span>
                   )}
-                </Field>
+                </p>
+                {showIpField && (
+                  <Field name="manualIp">
+                    {({ input, meta }) => (
+                      <div className="Input">
+                        <input {...input} placeholder="IP address..." />
+                      </div>
+                    )}
+                  </Field>
+                )}
                 <div className="FindBridge__Buttons">
                   <button className="Button" type="submit">
                     FIND

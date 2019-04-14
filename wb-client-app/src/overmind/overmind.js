@@ -339,6 +339,11 @@ export const overmind = new Overmind({
 
       console.log("err, response", err, response);
     },
+    setManualBridge: ({ state }, { ipAddress }) => {
+      state.bridge.finding = false;
+      state.bridge.ip = ipAddress;
+      localStorage.setItem("bridgeIp", ipAddress);
+    },
     setWifiSelected: ({ state }, { wifiSelected, wifiPassword }) => {
       state.bridge.wifiSelected = wifiSelected;
       state.bridge.wifiPassword = wifiPassword;
