@@ -339,10 +339,16 @@ export const overmind = new Overmind({
 
       console.log("err, response", err, response);
     },
-    setManualBridge: ({ state }, { ipAddress }) => {
-      state.bridge.finding = false;
-      state.bridge.ip = ipAddress;
-      localStorage.setItem("bridgeIp", ipAddress);
+    setManualBridge: async ({ state, effects }, { ipAddress }) => {
+      state.bridge.finding = true;
+      let [err, response] = await effects.getStatus({ ipAddress });
+      if (!err && response.data.status === "ok") {
+        state.bridge.finding = false;
+        state.bridge.ip = ipAddress;
+        localStorage.setItem("bridgeIp", ipAddress);
+      } else {
+        state.bridge.error = `Found the bridge but cannot connect to it at "${ipAddress}".`;
+      }
     },
     setWifiSelected: ({ state }, { wifiSelected, wifiPassword }) => {
       state.bridge.wifiSelected = wifiSelected;
