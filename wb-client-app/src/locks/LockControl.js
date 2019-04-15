@@ -6,7 +6,7 @@ import { useOvermind } from "../overmind/overmind";
 import BezierEasing from "bezier-easing";
 import { LockIcon } from "../common/icons/LockIcon";
 
-const TESTING = true;
+const TESTING = false;
 const easing = BezierEasing(0.36, 0, 0.13, 1.01);
 
 const defaultOptions = {
@@ -98,7 +98,7 @@ export const LockControl = ({ ...props }) => {
         <div className="ErrorMessage">
           Couldn't open/close the lock due to below error:
           <br />
-          <br />"{state.lock.error}""
+          <br />"{state.lock.error ? console.log(state.lock.error) : null}"
           <br />
           <br />
           Please check that lock and bridge are powered on and try again.

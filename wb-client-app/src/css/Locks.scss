@@ -46,6 +46,14 @@
   margin-left: 8px;
 }
 
+.BatteryIcon {
+  opacity: 1;
+}
+
+.BatteryIcon--Inactive {
+  opacity: 0.25;
+}
+
 .BatteryIndicator__Text {
   display: inline-block;
   min-width: 40px;

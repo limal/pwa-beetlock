@@ -12,7 +12,7 @@ import {
 const VOLTAGE_MAX = 419;
 const VOLTAGE_MIN = 320;
 
-let voltage = 419;
+// let voltage = 419;
 
 const Batteries = {
   zero: Battery04,
@@ -33,9 +33,7 @@ export const BatteryIndicator = () => {
   //     }, 100);
   //   }, [state.lock.connected]);
 
-  console.log("* voltage", voltage);
-
-  const percentage =
+  let percentage =
     state.lock.battery.voltage < VOLTAGE_MIN
       ? 1
       : Math.round(
@@ -45,6 +43,7 @@ export const BatteryIndicator = () => {
         );
 
   let icon = "zero";
+  const inactive = state.lock.battery.voltage === 0;
 
   if (percentage > 5 && percentage < 25) {
     icon = "one";
@@ -59,12 +58,21 @@ export const BatteryIndicator = () => {
     icon = "four";
   }
 
+  if (inactive) {
+    icon = "four";
+    percentage = "";
+  }
+
   const BatteryIcon = Batteries[icon];
 
   return (
     <span className="BatteryIndicator">
-      <BatteryIcon />
-      <span className="BatteryIndicator__Text">{`${percentage}%`}</span>
+      <BatteryIcon
+        className={`BatteryIcon ${inactive ? "BatteryIcon--Inactive" : ""}`}
+      />
+      <span className="BatteryIndicator__Text">{`${
+        !inactive ? percentage + "%" : ""
+      }`}</span>
     </span>
   );
 };
