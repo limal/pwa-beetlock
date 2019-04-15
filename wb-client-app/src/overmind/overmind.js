@@ -101,9 +101,13 @@ export const overmind = new Overmind({
 
       return err ? err.resopnse : response;
     },
-    getBattery: async ({ ipAddress }) => {
+    getBattery: async ({ ipAddress, cached = true }) => {
       let [err, response] = await to(
-        axios.get(endpoints.getBattery(ipAddress))
+        axios.get(
+          cached
+            ? endpoints.getBatteryCached(ipAddress)
+            : endpoints.getBattery(ipAddress)
+        )
       );
 
       return [err, response];
@@ -262,9 +266,10 @@ export const overmind = new Overmind({
         }
       }
     },
-    getBattery: async ({ state, effects }) => {
+    getBattery: async ({ state, effects }, { cached = true } = {}) => {
       let [err, response] = await effects.getBattery({
-        ipAddress: state.bridge.ip
+        ipAddress: state.bridge.ip,
+        cached
       });
       if (!err && response && response.data.status === "ok") {
         console.log("* response.data", response.data);
