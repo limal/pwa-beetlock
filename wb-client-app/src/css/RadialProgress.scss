@@ -1,0 +1,47 @@
+@import "./constants/constants.scss";
+
+.RadialProgress {
+  display: block;
+  margin: 10px auto;
+  max-height: 300px;
+  position: relative;
+  top: -250px;
+}
+
+.RadialProgress path {
+  will-change: auto;
+  stroke-width: 20px;
+  stroke-miterlimit: round;
+  //   stroke-linecap: square;
+  transition: color 850ms ease-in-out, stroke-dashoffset 850ms ease-in-out,
+    opacity 850ms ease-in-out;
+}
+.RadialProgress__Background {
+  stroke: $primary-color;
+}
+
+.RadialProgress__Meter {
+  color: $closed-color;
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+.RadialProgress__Meter--full {
+  color: $opened-color;
+  opacity: 0;
+  stroke-dashoffset: 349.51776; // document.querySelectorAll('.RadialProgress__Meter')[0].getTotalLength();
+}
+
+// .RadialProgress__Circle {
+//   stroke: #4cc790;
+//   fill: none;
+//   stroke-width: 2.8;
+//   stroke-linecap: round;
+//   animation: progress 1s ease-out forwards;
+// }
+
+// @keyframes progress {
+//   0% {
+//     stroke-dasharray: 0 100;
+//   }
+// }

@@ -23,14 +23,16 @@
 
 .LockControl {
   overflow: hidden;
+  position: relative;
 }
 
 .LockControl__Icon {
   position: relative;
   display: block;
-  margin: 0px auto;
+  margin: 80px auto 0 auto;
   color: $third-color;
   transition: 100ms linear;
+  z-index: 1;
 }
 
 .LockControl__Icon--opened {

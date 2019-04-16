@@ -5,8 +5,9 @@ import { useSwipeable } from "react-swipeable";
 import { useOvermind } from "../overmind/overmind";
 import BezierEasing from "bezier-easing";
 import { LockIcon } from "../common/icons/LockIcon";
+import { RadialProgress } from "./RadialProgress";
 
-const TESTING = false;
+const TESTING = true;
 const easing = BezierEasing(0.36, 0, 0.13, 1.01);
 
 const defaultOptions = {
@@ -43,19 +44,19 @@ export const LockControl = ({ ...props }) => {
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => {
-      !TESTING && actions.closeLock();
-      console.log("direction -1");
-      setOpened(false);
-      setPaused(false);
-      setDirection(-1);
-      reset();
-    },
-    onSwipedRight: () => {
       console.log("direction 1");
       !TESTING && actions.openLock();
       setOpened(true);
       setPaused(false);
       setDirection(1);
+      reset();
+    },
+    onSwipedRight: () => {
+      !TESTING && actions.closeLock();
+      console.log("direction -1");
+      setOpened(false);
+      setPaused(false);
+      setDirection(-1);
       reset();
     },
     onSwiping: e => {
@@ -86,13 +87,14 @@ export const LockControl = ({ ...props }) => {
         direction={direction}
       /> */}
       <LockIcon
-        width="200"
-        height="200"
+        width="180"
+        height="180"
         className={`LockControl__Icon ${
           opened ? "LockControl__Icon--opened" : "LockControl__Icon--closed"
         }`}
         style={{ left: calculateDistance(deltaX) }}
       />
+      <RadialProgress active={opened} />
       <pre>{state.lock.readMessage}</pre>
       {state.lock.error && (
         <div className="ErrorMessage">
