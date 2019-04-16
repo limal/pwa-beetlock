@@ -11,11 +11,6 @@ export const Locks = () => {
     actions.getBattery();
   }, [state.lock.connected]);
 
-  const onClick = e => {
-    console.log("* onClick Read)");
-    actions.readFromLock();
-  };
-
   return (
     <div className="Locks">
       {state.lock.connected ? (

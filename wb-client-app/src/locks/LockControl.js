@@ -67,8 +67,16 @@ export const LockControl = ({ ...props }) => {
   });
 
   const calculateDistance = x => {
-    const sign = (Math.abs(x) + 1) / (x + 1); // + 1 for x === 0
+    let sign = (Math.abs(x) + 1) / (x + 1); // + 1 for x === 0
     const distance = Math.min(1, Math.abs(x / 200.0));
+
+    if (opened && sign > 0) {
+      sign = 0;
+    }
+
+    if (!opened && sign < 0) {
+      sign = 0;
+    }
 
     return easing(distance) * -sign * 50;
   };

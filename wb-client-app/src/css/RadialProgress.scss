@@ -14,13 +14,26 @@
 }
 
 .RadialProgress__Background {
+  opacity: 1;
+  position: absolute;
+  transition: opacity 850ms ease-in-out;
+  will-change: auto;
+  color: $closed-color;
+}
+
+.RadialProgress__Background--active {
+  opacity: 0;
+}
+
+.RadialProgress__Background__White {
   opacity: 0;
   position: absolute;
   transition: opacity 850ms ease-in-out;
   will-change: auto;
+  color: #fff;
 }
 
-.RadialProgress__Background--active {
+.RadialProgress__Background__White--active {
   opacity: 1;
 }
 
@@ -36,13 +49,14 @@
 }
 
 .RadialProgress__Meter__Meter {
-  color: $closed-color;
+  //   color: $closed-color;
+  color: #fff;
   stroke-dashoffset: 0;
   opacity: 1;
 }
 
 .RadialProgress__Meter__Meter--full {
-  color: $opened-color;
+  //   color: $opened-color;
   opacity: 0;
   stroke-dashoffset: 349.51776; // document.querySelectorAll('.RadialProgress__Meter')[0].getTotalLength();
 }

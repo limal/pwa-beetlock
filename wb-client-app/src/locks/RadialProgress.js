@@ -12,7 +12,17 @@ export const RadialProgress = ({ active = false }) => {
         width="300"
         viewBox="0 0 300 300"
       >
-        <circle cx="150" cy="150" r="101" fill="#fff" />
+        <circle cx="150" cy="150" r="101" fill="currentColor" />
+      </svg>
+      <svg
+        className={`RadialProgress__Background__White ${
+          active ? "RadialProgress__Background__White--active" : ""
+        }`}
+        height="300"
+        width="300"
+        viewBox="0 0 300 300"
+      >
+        <circle cx="150" cy="150" r="101" fill="currentColor" />
       </svg>
       <svg
         xmlns="http://www.w3.org/2000/svg"
