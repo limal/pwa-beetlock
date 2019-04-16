@@ -10,6 +10,7 @@
   text-align: center;
   max-width: 80%;
   margin: 40px auto;
+  padding-bottom: 40px;
 }
 
 .Locks__Lock {
@@ -22,17 +23,20 @@
 }
 
 .LockControl {
-  overflow: hidden;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .LockControl__Icon {
   position: relative;
   display: block;
-  margin: 80px auto 0 auto;
+  // margin: 80px auto 0 auto;
   color: $third-color;
-  transition: 100ms linear;
-  z-index: 1;
+  transition: color 850ms linear;
+  z-index: 2;
 }
 
 .LockControl__Icon--opened {

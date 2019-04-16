@@ -2,6 +2,7 @@
 
 body {
   background-color: $primary-color;
+  // background-image: radial-gradient(#fff, #537895);
   color: $text-color;
 }
 
@@ -119,7 +120,7 @@ body {
   top: 36px;
   right: 0;
   border: solid 2px $secondary-color;
-  z-index: 1;
+  z-index: 100;
 }
 
 .MainMenu-Item {

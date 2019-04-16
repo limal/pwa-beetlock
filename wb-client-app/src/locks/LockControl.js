@@ -70,7 +70,7 @@ export const LockControl = ({ ...props }) => {
     const sign = (Math.abs(x) + 1) / (x + 1); // + 1 for x === 0
     const distance = Math.min(1, Math.abs(x / 200.0));
 
-    return easing(distance) * -sign * 100;
+    return easing(distance) * -sign * 50;
   };
 
   return (
@@ -87,8 +87,8 @@ export const LockControl = ({ ...props }) => {
         direction={direction}
       /> */}
       <LockIcon
-        width="180"
-        height="180"
+        width="150"
+        height="150"
         className={`LockControl__Icon ${
           opened ? "LockControl__Icon--opened" : "LockControl__Icon--closed"
         }`}
