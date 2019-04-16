@@ -25,7 +25,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
           </Fragment>
         ) : (
           <div className="Padding">
-            <h1 className="PrivateRoute__Header">You are logged out</h1>
+            <h1 className="PrivateRoute__Header">Authenticating...</h1>
             <a href={ROUTES.home} className="Button">
               Back to home
             </a>

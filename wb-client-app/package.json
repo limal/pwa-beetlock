@@ -12,7 +12,7 @@
     "format-string-by-pattern": "^1.1.1",
     "material-ui": "^0.20.2",
     "node-sass": "^4.11.0",
-    "overmind-react": "^17.0.0",
+    "overmind-react": "^18.1.0",
     "ramda": "^0.26.1",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",

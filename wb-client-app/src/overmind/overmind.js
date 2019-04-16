@@ -4,6 +4,7 @@ import axios from "axios";
 import to from "await-to-js";
 import { endpoints, wifiEndpoints } from "../util/endpoints";
 import { BRIDGE_STEPS } from "../util/constants";
+import { pipeAuthenticate } from "./auth.js";
 
 const STATUS_TIMEOUT = 2500;
 
@@ -61,6 +62,7 @@ export const overmind = new Overmind({
     lock: {
       connected: true, // TODO set to false
       readMessage: null,
+      state: null,
       battery: {
         voltage: 0
       }
@@ -111,6 +113,16 @@ export const overmind = new Overmind({
       );
 
       return [err, response];
+    },
+    getLockState: async ({ accessToken, ipAddress }) => {
+      console.log("* getlockstate", endpoints.getLockState(ipAddress));
+      let [err, response] = await to(
+        axios.get(endpoints.getLockState({ ipAddress }), {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        })
+      );
+
+      return err ? err.resopnse : response;
     },
     getOccupied: async ({ ipAddress }) => {
       let [err, response] = await to(
@@ -188,22 +200,24 @@ export const overmind = new Overmind({
     }
   },
   actions: {
-    authenticate: async ({ state, effects }, { accessToken }) => {
-      state.authenticated = false;
-      const response = await effects.authenticate({
-        accessToken,
-        ipAddress: state.bridge.ip
-      });
-      if (response && response.status < 300) {
-        state.authenticated = true;
-      } else {
-        state.accessToken = false;
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-      }
+    pipeAuthenticate,
+    // authenticate: async ({ state, effects }, { accessToken }) => {
+    //   state.authenticated = false;
+    //   const response = await effects.authenticate({
+    //     accessToken,
+    //     ipAddress: state.bridge.ip
+    //   });
+    //   if (response && response.status < 300) {
+    //     state.authenticated = true;
 
-      state.bootstrapped = true;
-    },
+    //   } else {
+    //     state.accessToken = false;
+    //     localStorage.removeItem("accessToken");
+    //     localStorage.removeItem("refreshToken");
+    //   }
+
+    //   state.bootstrapped = true;
+    // },
     cancelFindingBridge: ({ state }) => {
       state.bridge.finding = false;
     },

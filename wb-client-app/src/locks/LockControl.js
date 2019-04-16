@@ -7,7 +7,7 @@ import BezierEasing from "bezier-easing";
 import { LockIcon } from "../common/icons/LockIcon";
 import { RadialProgress } from "./RadialProgress";
 
-const TESTING = true;
+const TESTING = false;
 const easing = BezierEasing(0.36, 0, 0.13, 1.01);
 
 const defaultOptions = {

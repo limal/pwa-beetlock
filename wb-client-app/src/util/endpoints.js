@@ -12,6 +12,7 @@ export const endpoints = {
   findBridge: `${WB_CLOUD_URL}/get-bridge`,
   getBattery: ipAddress => centralHost(ipAddress, "/com/battery"),
   getBatteryCached: ipAddress => centralHost(ipAddress, "/com/batteryCached"),
+  getLockState: ipAddress => centralHost(ipAddress, "/user/lockState"),
   getOccupied: ipAddress => centralHost(ipAddress, "/user/occupied"),
   getStatus: ipAddress => centralHost(ipAddress, "/status"),
   readFromLock: ipAddress => centralHost(ipAddress, "/com/read"),
