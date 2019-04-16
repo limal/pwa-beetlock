@@ -80,9 +80,7 @@ export const App = () => {
     } else {
       const accessToken = localStorage.getItem("accessToken");
       if (state.bridge.ip !== null && !isEmpty(accessToken)) {
-        //actions.authenticate({ accessToken });
-        console.log("* lets PIPE AUTH");
-        actions.pipeAuthenticate({ accessToken });
+        actions.bootstrap({ accessToken });
       }
     }
   }, [state.bridge.ip]);

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Lottie from "react-lottie";
+import { LOCK_STATE } from "../util/constants";
+// import Lottie from "react-lottie";
 import animationData from "../common/anims/lock.json";
 import { useSwipeable } from "react-swipeable";
 import { useOvermind } from "../overmind/overmind";
@@ -21,7 +22,7 @@ const defaultOptions = {
 
 export const LockControl = ({ ...props }) => {
   const [deltaX, setDeltaX] = useState(0);
-  const [opened, setOpened] = useState(false);
+  // const [opened, setOpened] = useState(false);
   const [paused, setPaused] = useState(false);
   const [direction, setDirection] = useState(1);
   const { state, actions } = useOvermind();
@@ -46,16 +47,16 @@ export const LockControl = ({ ...props }) => {
     onSwipedLeft: () => {
       console.log("direction 1");
       !TESTING && actions.openLock();
-      setOpened(true);
-      setPaused(false);
+      // setOpened(true);
+      // setPaused(false);
       setDirection(1);
       reset();
     },
     onSwipedRight: () => {
       !TESTING && actions.closeLock();
       console.log("direction -1");
-      setOpened(false);
-      setPaused(false);
+      // setOpened(false);
+      // setPaused(false);
       setDirection(-1);
       reset();
     },
@@ -65,6 +66,10 @@ export const LockControl = ({ ...props }) => {
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });
+
+  const unknown = state.lock.state === LOCK_STATE.UNKNOWN;
+  const opened = state.lock.state === LOCK_STATE.OPENED;
+  const closed = state.lock.state === LOCK_STATE.CLOSED;
 
   const calculateDistance = x => {
     let sign = (Math.abs(x) + 1) / (x + 1); // + 1 for x === 0
@@ -81,9 +86,18 @@ export const LockControl = ({ ...props }) => {
     return easing(distance) * -sign * 50;
   };
 
+  const iconClassName = !unknown
+    ? opened
+      ? "LockControl__Icon--opened"
+      : "LockControl__Icon--closed"
+    : "LockControl__Icon--unknown";
+
   return (
     <div className="LockControl" {...swipeHandlers}>
-      <h1 className="Locks__Header">{opened ? "OPENED" : "CLOSED"}</h1>
+      <h1 className="Locks__Header">
+        {opened ? "OPENED" : null}
+        {closed ? "CLOSED" : null}
+      </h1>
       {/* <Lottie
         options={defaultOptions}
         height={160}
@@ -97,12 +111,10 @@ export const LockControl = ({ ...props }) => {
       <LockIcon
         width="150"
         height="150"
-        className={`LockControl__Icon ${
-          opened ? "LockControl__Icon--opened" : "LockControl__Icon--closed"
-        }`}
+        className={`LockControl__Icon ${iconClassName}`}
         style={{ left: calculateDistance(deltaX) }}
       />
-      <RadialProgress active={opened} />
+      <RadialProgress active={!unknown} opened={opened} closed={closed} />
       <pre>{state.lock.readMessage}</pre>
       {state.lock.error && (
         <div className="ErrorMessage">

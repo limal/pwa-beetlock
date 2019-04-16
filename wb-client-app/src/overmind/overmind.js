@@ -3,8 +3,8 @@ import { createHook } from "overmind-react";
 import axios from "axios";
 import to from "await-to-js";
 import { endpoints, wifiEndpoints } from "../util/endpoints";
-import { BRIDGE_STEPS } from "../util/constants";
-import { pipeAuthenticate } from "./auth.js";
+import { BRIDGE_STEPS, LOCK_STATE } from "../util/constants";
+import { bootstrap } from "./auth.js";
 
 const STATUS_TIMEOUT = 2500;
 
@@ -115,12 +115,13 @@ export const overmind = new Overmind({
       return [err, response];
     },
     getLockState: async ({ accessToken, ipAddress }) => {
-      console.log("* getlockstate", endpoints.getLockState(ipAddress));
       let [err, response] = await to(
-        axios.get(endpoints.getLockState({ ipAddress }), {
+        axios.get(endpoints.getLockState(ipAddress), {
           headers: { Authorization: `Bearer ${accessToken}` }
         })
       );
+
+      console.log("* err, response", err, response);
 
       return err ? err.resopnse : response;
     },
@@ -200,7 +201,7 @@ export const overmind = new Overmind({
     }
   },
   actions: {
-    pipeAuthenticate,
+    bootstrap,
     // authenticate: async ({ state, effects }, { accessToken }) => {
     //   state.authenticated = false;
     //   const response = await effects.authenticate({
@@ -238,6 +239,7 @@ export const overmind = new Overmind({
       if (!err) {
         if (response && response.data.status === "ok") {
           state.lock.readMessage = response.data.read;
+          state.lock.state = LOCK_STATE.CLOSED;
         } else {
           state.lock.error = response.data.error;
         }
@@ -334,6 +336,7 @@ export const overmind = new Overmind({
       if (!err) {
         if (response && response.data.status === "ok") {
           state.lock.readMessage = response.data.read;
+          state.lock.state = LOCK_STATE.OPENED;
         } else {
           state.lock.error = response.data.error;
         }

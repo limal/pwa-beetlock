@@ -20,7 +20,6 @@ const authenticate = () =>
 
 const getLockState = () =>
   mutate(async function getLockState({ state, effects }) {
-    console.log("* mutate getLockState");
     const response = await effects.getLockState({
       accessToken: state.accessToken,
       ipAddress: state.bridge.ip
@@ -34,7 +33,7 @@ const getLockState = () =>
     state.bootstrapped = true;
   });
 
-export const pipeAuthenticate = pipe(
+export const bootstrap = pipe(
   authenticate(),
   getLockState()
 );

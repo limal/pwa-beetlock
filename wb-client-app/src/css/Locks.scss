@@ -34,7 +34,7 @@
   position: relative;
   display: block;
   // margin: 80px auto 0 auto;
-  color: $third-color;
+  color: #fff;
   transition: color 850ms linear;
   z-index: 2;
 }
@@ -46,6 +46,11 @@
 .LockControl__Icon--closed {
   // color: $closed-color;
   color: #fff;
+}
+
+.LockControl__Icon--unknown {
+  color: $third-color;
+  opacity: 0.25;
 }
 
 .BatteryIndicator {

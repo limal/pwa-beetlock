@@ -4,3 +4,9 @@ export const BRIDGE_STEPS = {
   confirmingNewWifi: 40,
   error: 999
 };
+
+export const LOCK_STATE = {
+  UNKNOWN: "UNKNOWN",
+  OPENED: "OPENED",
+  CLOSED: "CLOSED"
+};
