@@ -8,6 +8,7 @@ const centralHost = (ipAddress, request) => {
 };
 
 export const endpoints = {
+  base: ipAddress => centralHost(ipAddress, "/"),
   auth: ipAddress => centralHost(ipAddress, "/auth"),
   findBridge: `${WB_CLOUD_URL}/get-bridge`,
   getBattery: ipAddress => centralHost(ipAddress, "/com/battery"),

@@ -9,6 +9,8 @@ import {
 } from "react-router-dom";
 import { isEmpty } from "ramda";
 import { useOvermind } from "./overmind/overmind";
+import socketIOClient from "socket.io-client";
+import { endpoints } from "./util/endpoints";
 import axios from "axios";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import lockOpen from "./lock-open.png";
@@ -80,6 +82,11 @@ export const App = () => {
     } else {
       const accessToken = localStorage.getItem("accessToken");
       if (state.bridge.ip !== null && !isEmpty(accessToken)) {
+        const socket = socketIOClient(endpoints.base(state.bridge.ip));
+        socket.on("FromAPI", data => {
+          console.log(data);
+          actions.setLockState(data);
+        });
         actions.bootstrap({ accessToken });
       }
     }

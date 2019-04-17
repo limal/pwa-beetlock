@@ -239,7 +239,7 @@ export const overmind = new Overmind({
       if (!err) {
         if (response && response.data.status === "ok") {
           state.lock.readMessage = response.data.read;
-          state.lock.state = LOCK_STATE.CLOSED;
+          // state.lock.state = LOCK_STATE.CLOSED;
         } else {
           state.lock.error = response.data.error;
         }
@@ -336,7 +336,7 @@ export const overmind = new Overmind({
       if (!err) {
         if (response && response.data.status === "ok") {
           state.lock.readMessage = response.data.read;
-          state.lock.state = LOCK_STATE.OPENED;
+          // state.lock.state = LOCK_STATE.OPENED;
         } else {
           state.lock.error = response.data.error;
         }
@@ -360,6 +360,9 @@ export const overmind = new Overmind({
       }
 
       console.log("err, response", err, response);
+    },
+    setLockState: ({ state }, { lockState }) => {
+      state.lock.state = lockState;
     },
     setManualBridge: async ({ state, effects }, { ipAddress }) => {
       state.bridge.finding = true;
