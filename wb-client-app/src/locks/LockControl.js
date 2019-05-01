@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { LOCK_STATE } from "../util/constants";
-// import Lottie from "react-lottie";
 import animationData from "../common/anims/lock.json";
 import { useSwipeable } from "react-swipeable";
 import { useOvermind } from "../overmind/overmind";
@@ -10,15 +9,6 @@ import { RadialProgress } from "./RadialProgress";
 
 const TESTING = false;
 const easing = BezierEasing(0.36, 0, 0.13, 1.01);
-
-const defaultOptions = {
-  loop: true,
-  autoplay: false,
-  animationData: animationData,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice"
-  }
-};
 
 export const LockControl = ({ ...props }) => {
   const [deltaX, setDeltaX] = useState(0);
@@ -30,18 +20,6 @@ export const LockControl = ({ ...props }) => {
   const reset = () => {
     setDeltaX(0);
   };
-
-  const eventListeners = [
-    {
-      eventName: "enterFrame",
-      callback: anim => {
-        console.log("direction === 1", direction);
-        if (direction === 1 && anim.currentTime > 50) {
-          setPaused(true);
-        }
-      }
-    }
-  ];
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => {

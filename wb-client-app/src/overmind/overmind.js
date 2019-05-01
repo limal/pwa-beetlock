@@ -361,6 +361,10 @@ export const overmind = new Overmind({
 
       console.log("err, response", err, response);
     },
+    removeBridge: ({ state }) => {
+      localStorage.removeItem("bridgeIp");
+      state.bridge.ip = null;
+    },
     setLockState: ({ state }, { lockState }) => {
       state.lock.state = lockState;
     },

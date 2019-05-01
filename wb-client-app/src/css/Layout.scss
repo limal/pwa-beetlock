@@ -18,6 +18,7 @@ body {
 .Layout {
   display: flex;
   flex-direction: column;
+  min-height: 75vh;
   max-width: $desktop-width;
   margin: 0 auto;
   overflow: hidden;

@@ -8,16 +8,22 @@ import "../css/Auth.scss";
 
 const focusOnError = createFocusDecorator();
 
-export const Login = props => {
+export const Login = ({ history, ...props }) => {
   const { state, actions } = useOvermind();
 
   const onSubmit = values => {
     actions.login(values);
   };
 
+  const handleRemoveBridge = e => {
+    console.log("* removeing bridge");
+    actions.removeBridge();
+    history.push(ROUTES.home);
+  };
+
   useEffect(() => {
     if (state.authenticated) {
-      props.history.push(ROUTES.locks);
+      history.push(ROUTES.locks);
     }
   }, [state.authenticated]);
 
@@ -69,6 +75,12 @@ export const Login = props => {
           </form>
         )}
       />
+      <p className="GoBack Login__Disconnect">
+        or{" "}
+        <span className="Link" onClick={handleRemoveBridge}>
+          disconnect from the bridge
+        </span>
+      </p>
     </div>
   );
 };

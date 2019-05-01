@@ -6,5 +6,6 @@ export const ROUTES = {
   foundBridge: "/foundBridge",
   login: "/login",
   locks: "/locks",
+  settings: "/settings",
   signUp: "/signup"
 };

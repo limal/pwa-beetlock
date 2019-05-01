@@ -46,6 +46,11 @@ export const MainMenu = () => {
                   Locks
                 </Link>
               </MenuItem>
+              <MenuItem>
+                <Link to={ROUTES.settings} onClick={toggleOpen}>
+                  Settings
+                </Link>
+              </MenuItem>
               <MenuItem handleClick={handleLogout}>
                 <span>Logout</span>
               </MenuItem>
