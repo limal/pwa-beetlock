@@ -33,6 +33,36 @@ export const calibrateEffects = {
 
     return [err, response];
   },
+  calibrateSave: async ({ accessToken, ipAddress }) => {
+    let response, err;
+
+    [err, response] = await to(
+      axios.post(
+        endpoints.sendToLock(ipAddress),
+        { message: "CALSAVE" },
+        {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        }
+      )
+    );
+
+    return [err, response];
+  },
+  calibrateSendAngles: async ({ accessToken, ipAddress, opened, closed }) => {
+    let response, err;
+
+    [err, response] = await to(
+      axios.post(
+        endpoints.sendToLock(ipAddress),
+        { message: `AS${parseInt(opened)}:${parseInt(closed)}` },
+        {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        }
+      )
+    );
+
+    return [err, response];
+  },
   phaseOpen: async ({ accessToken, ipAddress, phaseOpen }) => {
     let response, err;
 
@@ -94,6 +124,36 @@ export const calibrateActions = {
       }
     }
   },
+  calibrateSave: async ({ state, effects }) => {
+    state.lock.error = null;
+    let [err, response] = await effects.calibrateSave({
+      accessToken: state.accessToken,
+      ipAddress: state.bridge.ip
+    });
+
+    if (!err) {
+      if (response && response.data.status === "ok") {
+      } else {
+        state.lock.error = response.data.error;
+      }
+    }
+  },
+  calibrateSendAngles: async ({ state, effects }) => {
+    state.lock.error = null;
+    let [err, response] = await effects.calibrateSendAngles({
+      accessToken: state.accessToken,
+      ipAddress: state.bridge.ip,
+      opened: state.lock.calibrate.opened,
+      closed: state.lock.calibrate.closed
+    });
+
+    if (!err) {
+      if (response && response.data.status === "ok") {
+      } else {
+        state.lock.error = response.data.error;
+      }
+    }
+  },
   setPhaseOpen: async ({ state, effects }, phaseOpen = true) => {
     state.lock.error = null;
     let [err, response] = await effects.phaseOpen({
@@ -107,6 +167,14 @@ export const calibrateActions = {
       } else {
         state.lock.error = response.data.error;
       }
+    }
+  },
+  setAngles: ({ state, effects }, { openedAngle = -1, closedAngle = -1 }) => {
+    if (openedAngle > 0) {
+      state.lock.calibrate.opened = openedAngle;
+    }
+    if (closedAngle > 0) {
+      state.lock.calibrate.closed = closedAngle;
     }
   },
   setTime: async ({ state, effects }, time = 10) => {

@@ -29,3 +29,9 @@
 
 .Calibration__Right {
 }
+
+.Calibration__Action {
+  @include H2;
+  background: #f00;
+  margin: 50px;
+}

@@ -89,6 +89,15 @@ export const App = () => {
           console.log(data);
           actions.setLockState(data);
         });
+        socket.on("CALIBRATION_ANGLES", data => {
+          console.log(JSON.stringify(data));
+          if (data.opening) {
+            actions.setAngles({ openedAngle: data.endAngle });
+          } else {
+            actions.setAngles({ closedAngle: data.endAngle });
+          }
+          // actions.set
+        });
         actions.bootstrap({ accessToken });
       }
     }

@@ -66,6 +66,10 @@ export const overmind = new Overmind({
       state: null,
       battery: {
         voltage: 0
+      },
+      calibrate: {
+        opened: -1,
+        closed: -1
       }
     }
   },

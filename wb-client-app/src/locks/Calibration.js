@@ -51,6 +51,21 @@ export const Calibration = () => {
         <div className="Calibration__Left" onClick={open} />
         <div className="Calibration__Right" onClick={close} />
       </div>
+      <div>
+        {state.lock.calibrate.opened}, {state.lock.calibrate.closed}
+      </div>
+      <div
+        className="Calibration__Action"
+        onClick={e => actions.calibrateSendAngles()}
+      >
+        SEND ANGLES
+      </div>
+      <div
+        className="Calibration__Action"
+        onClick={e => actions.calibrateSave()}
+      >
+        SAVE ANGLES
+      </div>
     </div>
   );
 };
