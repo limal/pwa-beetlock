@@ -80,11 +80,17 @@ export const overmind = new Overmind({
 
       return err ? err.response : response;
     },
-    closeLock: async ({ ipAddress }) => {
+    closeLock: async ({ accessToken, ipAddress }) => {
       let response, err;
 
       [err, response] = await to(
-        axios.post(endpoints.sendToLock(ipAddress), { message: "CLOSE" })
+        axios.post(
+          endpoints.sendToLock(ipAddress),
+          { message: "CLOSE" },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` }
+          }
+        )
       );
 
       return [err, response];
@@ -103,12 +109,15 @@ export const overmind = new Overmind({
 
       return err ? err.resopnse : response;
     },
-    getBattery: async ({ ipAddress, cached = true }) => {
+    getBattery: async ({ accessToken, ipAddress, cached = true }) => {
       let [err, response] = await to(
         axios.get(
           cached
             ? endpoints.getBatteryCached(ipAddress)
-            : endpoints.getBattery(ipAddress)
+            : endpoints.getBattery(ipAddress),
+          {
+            headers: { Authorization: `Bearer ${accessToken}` }
+          }
         )
       );
 
@@ -160,11 +169,17 @@ export const overmind = new Overmind({
 
       return err ? err.response : response;
     },
-    openLock: async ({ ipAddress }) => {
+    openLock: async ({ accessToken, ipAddress }) => {
       let response, err;
 
       [err, response] = await to(
-        axios.post(endpoints.sendToLock(ipAddress), { message: "OPEN" })
+        axios.post(
+          endpoints.sendToLock(ipAddress),
+          { message: "OPEN" },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` }
+          }
+        )
       );
 
       return [err, response];
@@ -233,6 +248,7 @@ export const overmind = new Overmind({
       state.lock.readMessage = "";
       state.lock.error = null;
       let [err, response] = await effects.closeLock({
+        accessToken: state.accessToken,
         ipAddress: state.bridge.ip
       });
 
@@ -284,6 +300,7 @@ export const overmind = new Overmind({
     },
     getBattery: async ({ state, effects }, { cached = true } = {}) => {
       let [err, response] = await effects.getBattery({
+        accessToken: state.accessToken,
         ipAddress: state.bridge.ip,
         cached
       });
@@ -330,6 +347,7 @@ export const overmind = new Overmind({
       state.lock.readMessage = "";
       state.lock.error = null;
       let [err, response] = await effects.openLock({
+        accessToken: state.accessToken,
         ipAddress: state.bridge.ip
       });
 
@@ -402,6 +420,7 @@ export const overmind = new Overmind({
       state.lock.readMessage = "";
       state.lock.error = null;
       let [err, response] = await effects.sendToLock({
+        accessToken: state.accessToken,
         ipAddress: state.bridge.ip,
         message
       });
