@@ -2,20 +2,28 @@ import React, { Fragment, useEffect } from "react";
 import { useOvermind } from "../overmind/overmind";
 import "../css/Calibration.scss";
 import { useForm, useField } from "react-final-form-hooks";
+import { action } from "overmind";
 
 export const Calibration = () => {
   const { state, actions } = useOvermind();
   const { form, handleSubmit, values } = useForm({
     initialValues: {
-      phase_open: true
+      phase_open: true,
+      time: 20
     },
-    onSubmit: values => console.log(values)
+    onSubmit: values => {
+      actions.setTime(values.time);
+    }
   });
   const phaseCheckbox = useField("phase_open", form);
+  const timeInput = useField("time", form);
 
   useEffect(() => {
-    actions.phaseOpen(phaseCheckbox.input.value);
+    actions.setPhaseOpen(phaseCheckbox.input.value);
   }, [phaseCheckbox.input.value]);
+
+  const open = e => actions.calibrateOpen();
+  const close = e => actions.calibrateClose();
 
   return (
     <div className="Calibration">
@@ -28,11 +36,21 @@ export const Calibration = () => {
           checked={phaseCheckbox.input.value}
           {...phaseCheckbox.input}
         />
+        <input
+          type="text"
+          id={timeInput.input.name}
+          checked={timeInput.input.value}
+          {...timeInput.input}
+        />
 
         <div>
           <pre>{JSON.stringify(values, null, 2)}</pre>
         </div>
       </form>
+      <div className="Calibration__Control">
+        <div className="Calibration__Left" onClick={open} />
+        <div className="Calibration__Right" onClick={close} />
+      </div>
     </div>
   );
 };
