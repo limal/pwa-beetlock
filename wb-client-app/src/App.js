@@ -27,6 +27,7 @@ import { FindBridge } from "./locks/FindBridge";
 import { FoundBridge } from "./locks/FoundBridge";
 import { SignUp } from "./auth/SignUp";
 import { Settings } from "./settings/Settings";
+import { Calibration } from "./locks/Calibration";
 
 // class App extends Component {
 //   state = {
@@ -109,6 +110,11 @@ export const App = () => {
               exact
             />
             <PrivateRoute path={ROUTES.settings} component={Settings} exact />
+            <PrivateRoute
+              path={ROUTES.calibration}
+              component={Calibration}
+              exact
+            />
             <Route path={ROUTES.login} component={Login} />
             <Route path={ROUTES.signUp} component={SignUp} />
           </Switch>

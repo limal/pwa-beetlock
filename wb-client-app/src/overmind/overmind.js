@@ -5,6 +5,7 @@ import to from "await-to-js";
 import { endpoints, wifiEndpoints } from "../util/endpoints";
 import { BRIDGE_STEPS, LOCK_STATE } from "../util/constants";
 import { bootstrap } from "./auth.js";
+import { calibrateActions, calibrateEffects } from "./calibrate";
 
 const STATUS_TIMEOUT = 2500;
 
@@ -69,6 +70,7 @@ export const overmind = new Overmind({
     }
   },
   effects: {
+    ...calibrateEffects,
     authenticate: async ({ accessToken, ipAddress }) => {
       let response, err;
 
@@ -217,23 +219,7 @@ export const overmind = new Overmind({
   },
   actions: {
     bootstrap,
-    // authenticate: async ({ state, effects }, { accessToken }) => {
-    //   state.authenticated = false;
-    //   const response = await effects.authenticate({
-    //     accessToken,
-    //     ipAddress: state.bridge.ip
-    //   });
-    //   if (response && response.status < 300) {
-    //     state.authenticated = true;
-
-    //   } else {
-    //     state.accessToken = false;
-    //     localStorage.removeItem("accessToken");
-    //     localStorage.removeItem("refreshToken");
-    //   }
-
-    //   state.bootstrapped = true;
-    // },
+    ...calibrateActions,
     cancelFindingBridge: ({ state }) => {
       state.bridge.finding = false;
     },

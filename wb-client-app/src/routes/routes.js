@@ -1,5 +1,6 @@
 export const ROUTES = {
   home: "/",
+  calibration: "/calibration",
   hotSpot: "/hotspot",
   bridgeWifi: "/bridgeWifi",
   findBridge: "/findBridge",

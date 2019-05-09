@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { LOCK_STATE } from "../util/constants";
-import animationData from "../common/anims/lock.json";
 import { useSwipeable } from "react-swipeable";
 import { useOvermind } from "../overmind/overmind";
 import BezierEasing from "bezier-easing";
