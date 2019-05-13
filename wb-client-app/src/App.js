@@ -85,6 +85,14 @@ export const App = () => {
       const accessToken = localStorage.getItem("accessToken");
       if (state.bridge.ip !== null && !isEmpty(accessToken)) {
         const socket = socketIOClient(endpoints.base(state.bridge.ip));
+        socket.emit("authenticate", { token: accessToken });
+
+        socket.on("authenticated", () => {
+          console.log("authenticated!!!");
+        });
+        socket.on("unauthorized", () => {
+          console.log("*** ERROR unauth for sockets");
+        });
         socket.on("FromAPI", data => {
           console.log(data);
           actions.setLockState(data);
