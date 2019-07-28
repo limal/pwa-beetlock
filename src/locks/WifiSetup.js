@@ -116,7 +116,7 @@ export const WifiSetup = () => {
                   </Field>
                   <p className="Password-Hint">
                     Your password is safe and will not be shared with anyone -
-                    even us. It will enable your WB Lock Bridge to connect to
+                    even us. It will enable your Beet Lock Bridge to connect to
                     the Internet.
                   </p>
                   <div className="WifiSetup-Buttons">
