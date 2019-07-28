@@ -1,0 +1,203 @@
+@import "./constants/constants.scss";
+
+body {
+  background-color: $primary-color;
+  // background-image: radial-gradient(#fff, #537895);
+  color: $text-color;
+}
+
+::placeholder {
+  color: $text-color;
+  opacity: 0.75;
+}
+
+.CursorPointer {
+  cursor: pointer;
+}
+
+.Layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 75vh;
+  max-width: $desktop-width;
+  margin: 0 auto;
+  overflow: hidden;
+
+  @include tablet {
+    margin-top: 100px;
+  }
+
+  @include desktop {
+    margin-top: 100px;
+  }
+}
+
+.Layout-Header {
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(0deg, $primary-color, rgba(0, 0, 0, 0.5));
+  @include padding;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.Text {
+  font-size: 14px;
+}
+
+.Text--center {
+  text-align: center;
+}
+
+.Flip-H {
+  transform: scaleX(-1);
+}
+
+.Opacity-75 {
+  opacity: 0.75;
+}
+
+.Logo {
+  line-height: 24px;
+}
+
+.Logo-Link {
+  color: $text-color;
+  text-decoration: none;
+}
+
+.Underlined {
+  text-decoration: underline;
+}
+
+.Overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 0;
+}
+
+.MainMenu {
+  max-width: 300px;
+}
+
+.MainMenu-IconContainer {
+  position: relative;
+}
+
+.MainMenu-Active {
+  fill: $primary-color;
+}
+
+.Hidden {
+  display: none;
+}
+
+.Key {
+  margin-right: 10px;
+}
+
+.Header {
+  @include H1;
+}
+
+.PrivateRoute__Header {
+  @include H1;
+  margin-bottom: 40px;
+}
+
+.Padding {
+  @include padding;
+}
+
+.MainMenu-List {
+  position: absolute;
+  background: $primary-color;
+  color: $text-color;
+  @include Body;
+  top: 36px;
+  right: 0;
+  border: solid 2px $secondary-color;
+  z-index: 100;
+}
+
+.MainMenu-Item {
+  list-style: none;
+
+  a,
+  span {
+    display: block;
+    color: $text-color;
+    padding: 20px 40px;
+    min-width: 100px;
+    text-decoration: none;
+  }
+}
+
+.Details {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.Details dt {
+  flex: 0 0 50%;
+  margin: 6px 0;
+}
+
+.Details dd {
+  flex: 0 0 50%;
+  margin: 6px 0;
+  font-weight: bold;
+}
+
+.Onboarding {
+  @include padding;
+  margin-top: 40px;
+}
+
+.Onboarding__Header {
+  @include H1;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.Onboarding__Text {
+  text-align: center;
+}
+
+.Onboarding__Bridge {
+  margin: 40px 0;
+  text-align: center;
+}
+
+.Onboarding__Icon {
+  color: $third-color;
+}
+
+.HotSpot {
+  @include padding;
+  margin-top: 40px;
+}
+
+.HotSpot__Header {
+  @include H1;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.HotSpot__Text {
+  text-align: center;
+}
+
+.HotSpot__Buttons {
+  margin-top: 32px;
+}
+
+.GoBack {
+  text-align: center;
+}

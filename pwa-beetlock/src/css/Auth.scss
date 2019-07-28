@@ -1,0 +1,34 @@
+@import "./constants/constants.scss";
+@import "./Forms.scss";
+
+.Login {
+  margin: 40px 0;
+  @include padding;
+}
+
+.Login-Header {
+  @include H1;
+  text-align: center;
+}
+
+.Login-Form {
+  margin: 40px 20px 0 20px;
+}
+
+.Login__Disconnect {
+  margin: 100px;
+}
+
+.SignUp {
+  margin: 40px 0;
+  @include padding;
+}
+
+.SignUp-Header {
+  @include H1;
+  text-align: center;
+}
+
+.SignUp-Form {
+  margin: 40px 20px 0 20px;
+}

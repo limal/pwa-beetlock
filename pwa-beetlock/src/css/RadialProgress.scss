@@ -1,0 +1,87 @@
+@import "./constants/constants.scss";
+
+.RadialProgress {
+  position: relative;
+  top: -225px;
+  left: -150px;
+}
+
+.RadialProgress__Meter path {
+  will-change: auto;
+  stroke-width: 20px;
+  transition: color 850ms ease-in-out, stroke-dashoffset 850ms ease-in-out,
+    opacity 850ms ease-in-out;
+}
+
+.RadialProgress__Background {
+  opacity: 0;
+  position: absolute;
+  transition: opacity 850ms ease-in-out;
+  will-change: auto;
+  color: $closed-color;
+}
+
+.RadialProgress__Background--opened {
+  opacity: 0;
+}
+
+.RadialProgress__Background--closed {
+  opacity: 1;
+}
+
+.RadialProgress__Background__White {
+  opacity: 0;
+  position: absolute;
+  transition: opacity 850ms ease-in-out;
+  will-change: auto;
+  color: #fff;
+}
+
+.RadialProgress__Background__White--closed {
+  opacity: 0;
+}
+
+.RadialProgress__Background__White--opened {
+  opacity: 1;
+}
+
+.RadialProgress__Meter {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.RadialProgress__Meter__Background {
+  stroke: $primary-color;
+  //   stroke: #537895;
+}
+
+.RadialProgress__Meter__Meter {
+  stroke-dashoffset: 0;
+  opacity: 0;
+}
+
+.RadialProgress__Meter__Meter--closed {
+  color: #fff;
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+.RadialProgress__Meter__Meter--opened {
+  opacity: 0;
+  stroke-dashoffset: 349.51776; // document.querySelectorAll('.RadialProgress__Meter')[0].getTotalLength();
+}
+
+// .RadialProgress__Circle {
+//   stroke: #4cc790;
+//   fill: none;
+//   stroke-width: 2.8;
+//   stroke-linecap: round;
+//   animation: progress 1s ease-out forwards;
+// }
+
+// @keyframes progress {
+//   0% {
+//     stroke-dasharray: 0 100;
+//   }
+// }
