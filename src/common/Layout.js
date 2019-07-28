@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
     <div className="Layout">
       <div className="Layout-Header">
         {/* <Back className="Flip-H" /> */}
-        <Logo />
+        <h3>Beet Lock</h3>
         <MainMenu />
       </div>
       {children}
